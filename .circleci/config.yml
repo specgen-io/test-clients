@@ -25,6 +25,7 @@ jobs:
             go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
             mkdir -p ./test-results
             go install github.com/jstemmer/go-junit-report@v0.9.1
+            go test ./... -v
             go test ./... -v 2>&1 | go-junit-report > ./test-results/go-test-report.xml
       - store_test_results:
           path: ./go/test-results
