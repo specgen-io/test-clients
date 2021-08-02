@@ -196,8 +196,6 @@ workflows:
     jobs:
       - test-service:
           context: specgen
-          requires:
-            - test-service
       - go:
           context: specgen
           requires:
