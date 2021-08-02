@@ -5,6 +5,10 @@ parameters:
     type: string
     default: 2.0.301
 
+  specgen-version-major:
+    type: string
+    default: v2
+
 jobs:
   go:
     working_directory: ~/specgen-tests
@@ -165,7 +169,7 @@ commands:
             done
 
 workflows:
-  client-axios:
+  build-test:
     jobs:
       - go:
           context: specgen      
