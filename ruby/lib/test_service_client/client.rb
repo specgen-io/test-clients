@@ -91,13 +91,35 @@ module TestService
       end
     end
 
+    def check_url_params(int_url:, string_url:, float_url:, bool_url:, uuid_url:, decimal_url:, date_url:)
+      url_params = TestService::StringParams.new
+      url_params.set('int_url', Integer, int_url)
+      url_params.set('string_url', String, string_url)
+      url_params.set('float_url', Float, float_url)
+      url_params.set('bool_url', Boolean, bool_url)
+      url_params.set('uuid_url', UUID, uuid_url)
+      url_params.set('decimal_url', Float, decimal_url)
+      url_params.set('date_url', Date, date_url)
+      url = @base_uri + url_params.set_to_url('/check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}')
+      request = Net::HTTP::Get.new(url)
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => nil, :ok? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
+
     def check_forbidden()
       url = @base_uri + '/check/forbidden'
       request = Net::HTTP::Get.new(url)
       response = @client.request(request)
       case response.code
+      when '200'
+        OpenStruct.new(:ok => Jsoner.from_json(Message, response.body), :ok? => true, :forbidden? => false)
       when '403'
-        OpenStruct.new(:forbidden => nil, :forbidden? => true)
+        OpenStruct.new(:forbidden => nil, :ok? => false, :forbidden? => true)
       else
         raise StandardError.new("Unexpected HTTP response code #{response.code}")
       end

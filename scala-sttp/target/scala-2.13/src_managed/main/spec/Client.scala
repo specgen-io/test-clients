@@ -143,6 +143,27 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
         }
     }
   }
+  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate): Future[CheckUrlParamsResponse] = {
+    val url = Uri.parse(baseUrl+s"/check/url_params/$intUrl/$stringUrl/$floatUrl/$boolUrl/$uuidUrl/$decimalUrl/$dateUrl").get
+    logger.debug(s"Request to url: ${url}")
+    val response: Future[Response[String]] =
+      sttp
+        .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) => logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => CheckUrlParamsResponse.Ok()
+            }
+          case Left(errorData) => val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
   def checkForbidden(): Future[CheckForbiddenResponse] = {
     val url = Uri.parse(baseUrl+s"/check/forbidden").get
     logger.debug(s"Request to url: ${url}")
@@ -156,6 +177,7 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
         response.body match {
           case Right(body) => logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
+              case 200 => CheckForbiddenResponse.Ok(Jsoner.readThrowing[Message](body))
               case 403 => CheckForbiddenResponse.Forbidden()
             }
           case Left(errorData) => val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
