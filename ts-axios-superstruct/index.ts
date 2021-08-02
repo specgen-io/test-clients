@@ -101,10 +101,23 @@ export const checkClient = (axiosInstance: AxiosInstance) => {
             }
         },
 
+        checkUrlParams: async (parameters: {intUrl: number, stringUrl: string, floatUrl: number, boolUrl: boolean, uuidUrl: string, decimalUrl: number, dateUrl: string}): Promise<CheckUrlParamsResponse> => {
+            const config: AxiosRequestConfig = {}
+            const response = await axiosInstance.get(`/check/url_params/${parameters.intUrl}/${parameters.stringUrl}/${parameters.floatUrl}/${parameters.boolUrl}/${parameters.uuidUrl}/${parameters.decimalUrl}/${parameters.dateUrl}`, config)
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve({ status: "ok" })
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
+
         checkForbidden: async (): Promise<CheckForbiddenResponse> => {
             const config: AxiosRequestConfig = {}
             const response = await axiosInstance.get(`/check/forbidden`, config)
             switch (response.status) {
+                case 200:
+                    return Promise.resolve({ status: "ok", data: t.decode(models.TMessage, response.data) })
                 case 403:
                     return Promise.resolve({ status: "forbidden" })
                 default:
@@ -117,5 +130,9 @@ export const checkClient = (axiosInstance: AxiosInstance) => {
 export type CheckQueryResponse =
     | { status: "ok" }
 
+export type CheckUrlParamsResponse =
+    | { status: "ok" }
+
 export type CheckForbiddenResponse =
+    | { status: "ok", data: models.Message }
     | { status: "forbidden" }

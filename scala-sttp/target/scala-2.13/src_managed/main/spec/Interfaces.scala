@@ -13,6 +13,7 @@ trait IEchoClient {
 trait ICheckClient {
   import ICheckClient._
   def checkQuery(pString: String, pStringOpt: Option[String], pStringArray: List[String], pDate: java.time.LocalDate, pDateArray: List[java.time.LocalDate], pDatetime: java.time.LocalDateTime, pInt: Int, pLong: Long, pDecimal: BigDecimal, pEnum: Choice, pStringDefaulted: String = "the default value"): Future[CheckQueryResponse]
+  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate): Future[CheckUrlParamsResponse]
   def checkForbidden(): Future[CheckForbiddenResponse]
 }
 
@@ -40,8 +41,13 @@ object ICheckClient {
   object CheckQueryResponse {
     case class Ok() extends CheckQueryResponse
   }
+  sealed trait CheckUrlParamsResponse
+  object CheckUrlParamsResponse {
+    case class Ok() extends CheckUrlParamsResponse
+  }
   sealed trait CheckForbiddenResponse
   object CheckForbiddenResponse {
+    case class Ok(body: Message) extends CheckForbiddenResponse
     case class Forbidden() extends CheckForbiddenResponse
   }
 }
