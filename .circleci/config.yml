@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.0.301
+    default: 2.0.339
 
   specgen-version-major:
     type: string
@@ -95,7 +95,7 @@ jobs:
             cd ./ts-axios-superstruct
             npm add specgen.io@$SPECGEN_VERSION
             npm install
-            npm run codegen
+            npm run specgen
             export SERVICE_URL=http://localhost:8081
             mkdir -p ./test-results
             export JEST_JUNIT_OUTPUT_DIR=./test-results
