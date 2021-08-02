@@ -10,12 +10,34 @@ parameters:
     default: v2
 
 jobs:
+  test-service:
+    working_directory: ~/specgen-tests
+    docker:
+      - image: cimg/go:1.16.4
+    steps:
+      - checkout
+      - start-service:
+          port: 8081
+      - run:
+          name: Built test service
+          command: |
+            cd ./test-service
+            go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
+            go generate
+            go build -o test-service
+      - persist_to_workspace:
+          root: .
+          paths:
+            - test-service
+
   go:
     working_directory: ~/specgen-tests
     docker:
       - image: cimg/go:1.16.4
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - start-service:
           port: 8081
       - run:
@@ -36,6 +58,8 @@ jobs:
       - image: circleci/ruby:2.4.9
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - start-service:
           port: 8081
       - run:
@@ -57,6 +81,8 @@ jobs:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - restore_cache:
           keys:
             - cache-{{ checksum "./scala-sttp/build.sbt" }}
@@ -88,6 +114,8 @@ jobs:
       - image: cimg/node:14.15.1
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - start-service:
           port: 8081
       - run:
@@ -129,14 +157,8 @@ commands:
         type: integer
     steps:
       - run:
-          name: Install service-go
-          command: |
-            curl -L https://github.com/specgen-io/specgen-test-service-go/releases/download/<< pipeline.parameters.specgen-version >>/service-go_linux_amd64.zip > service-go.zip
-            unzip -o service-go.zip
-            ls -la
-      - run:
-          name: Start service-go
-          command: ./service-go --port << parameters.port >>
+          name: Start test-service
+          command: ./test-service/test-service --port << parameters.port >>
           background: true
       - wait-url:
           url: http://localhost:<< parameters.port >>/
@@ -172,11 +194,23 @@ commands:
 workflows:
   build-test:
     jobs:
+      - test-service:
+          context: specgen
+          requires:
+            - test-service
       - go:
-          context: specgen      
+          context: specgen
+          requires:
+            - test-service
       - ruby:
-          context: specgen      
+          context: specgen
+          requires:
+            - test-service
       - scala-sttp:
-          context: specgen      
+          context: specgen
+          requires:
+            - test-service
       - ts-axios:
-          context: specgen      
+          context: specgen
+          requires:
+            - test-service
