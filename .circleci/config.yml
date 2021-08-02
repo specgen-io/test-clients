@@ -1,0 +1,177 @@
+version: 2.1
+
+parameters:
+  specgen-version:
+    type: string
+    default: 2.0.301
+
+jobs:
+  go:
+    working_directory: ~/specgen-tests
+    docker:
+      - image: cimg/go:1.16.4
+    steps:
+      - checkout
+      - start-service:
+          port: 8081
+      - run:
+          name: Test Go client
+          command: |
+            cd ./go
+            go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
+            mkdir -p ./test-results
+            go install github.com/jstemmer/go-junit-report@v0.9.1
+            go test ./... -v 2>&1 | go-junit-report > ./test-results/go-test-report.xml
+      - store_test_results:
+          path: ./go/test-results
+
+  ruby:
+    working_directory: ~/specgen-tests
+    docker:
+      - image: circleci/ruby:2.4.9
+    steps:
+      - checkout
+      - start-service:
+          port: 8081
+      - run:
+          name: Test Ruby client
+          command: |
+            cd ./ruby
+            bundle inject specgen "= << pipeline.parameters.specgen-version >>"
+            bundle install
+            export SERVICE_URL=http://localhost:8081
+            rake
+      - store_test_results:
+          path: ./ruby/test-results
+
+  scala-sttp:
+    environment:
+      SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
+    working_directory: ~/specgen-tests
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "./scala-sttp/build.sbt" }}
+      - setup-sbt:
+          jfrog-server-url: specgen.jfrog.io
+          repo-name: sbt
+      - start-service:
+          port: 8081
+      - run:
+          name: Test Scala sttp client
+          command: |
+            cd ./scala-sttp
+            export SERVICE_URL=http://localhost:8081
+            mkdir -p ./test-results
+            sbt -Djunitxml=./test-results test < /dev/null
+      - store_test_results:
+          path: ./scala-sttp/test-results
+      - save_cache:
+          key: cache-{{ checksum "./scala-sttp/build.sbt" }}
+          paths:
+            - ~/.sbt
+            - ~/.ivy2
+
+  ts-axios:
+    environment:
+      SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
+    working_directory: ~/specgen-tests
+    docker:
+      - image: cimg/node:14.15.1
+    steps:
+      - checkout
+      - start-service:
+          port: 8081
+      - run:
+          name: Test axios client
+          command: |
+            cd ./ts-axios-superstruct
+            npm add specgen.io@$SPECGEN_VERSION
+            npm install
+            npm run codegen
+            export SERVICE_URL=http://localhost:8081
+            mkdir -p ./test-results
+            export JEST_JUNIT_OUTPUT_DIR=./test-results
+            npm run test
+      - store_test_results:
+          path: ./ts-axios-superstruct/test-results
+          
+commands:
+  setup-sbt:
+    parameters:
+      jfrog-server-url:
+        type: string
+      repo-name:
+        type: string
+    steps:
+      - run:
+          name: Setup Artifactory for SBT
+          command: |
+            mkdir -p ~/.sbt/1.0
+            tee > ~/.sbt/1.0/artifactory.sbt \<<END
+            credentials += Credentials("Artifactory Realm", "<< parameters.jfrog-server-url >>", "$JFROG_USER", "$JFROG_PASS")
+            val artifactory = "Artifactory Realm" at "https://<< parameters.jfrog-server-url >>/artifactory/<< parameters.repo-name >>"
+            resolvers += artifactory
+            publishTo := Some(artifactory)
+            END
+
+  start-service:
+    parameters:
+      port:
+        type: integer
+    steps:
+      - run:
+          name: Install service-go
+          command: |
+            curl -L https://github.com/specgen-io/specgen-test-service-go/releases/download/<< pipeline.parameters.specgen-version >>/service-go_linux_amd64.zip > service-go.zip
+            unzip -o service-go.zip
+            ls -la
+      - run:
+          name: Start service-go
+          command: ./service-go --port << parameters.port >>
+          background: true
+      - wait-url:
+          url: http://localhost:<< parameters.port >>/
+
+  wait-url:
+    parameters:
+      url:
+        type: string
+      sleep:
+        type: integer
+        default: 5
+      attempts:
+        type: integer
+        default: 12
+    steps:
+      - run:
+          name: Wait until url is available
+          command: |
+            attempt_counter=0
+            max_attempts=<< parameters.attempts >>
+
+            until $(curl --output /dev/null --silent --head --fail << parameters.url >>); do
+              if [ ${attempt_counter} -eq ${max_attempts} ];then
+                echo "Max attempts reached"
+                exit 1
+              fi
+
+              printf '.'
+              attempt_counter=$(($attempt_counter+1))
+              sleep << parameters.sleep >>
+            done
+
+workflows:
+  client-axios:
+    jobs:
+      - go:
+          context: specgen      
+      - ruby:
+          context: specgen      
+      - scala-sttp:
+          context: specgen      
+      - ts-axios:
+          context: specgen      
