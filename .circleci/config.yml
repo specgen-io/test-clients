@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.0.475
+    default: 2.0.487
 
   specgen-version-major:
     type: string
