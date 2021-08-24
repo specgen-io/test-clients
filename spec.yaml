@@ -45,6 +45,11 @@ http:
         ok: Message
 
   check:
+    check_empty:
+      endpoint: GET /check/empty
+      response:
+        ok: empty
+
     check_query:
       endpoint: GET /check/query
       query:
