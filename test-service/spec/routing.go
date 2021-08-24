@@ -82,6 +82,15 @@ func AddEchoRoutes(router *vestigo.Router, echoService IEchoService) {
 }
 
 func AddCheckRoutes(router *vestigo.Router, checkService ICheckService) {
+	router.Get("/check/empty", func(w http.ResponseWriter, r *http.Request) {
+		response, err := checkService.CheckEmpty()
+		if !checkOperationErrors(err, w) { return }
+		if response.Ok != nil {
+			w.WriteHeader(200)
+			json.NewEncoder(w).Encode(response.Ok)
+			return
+		}
+	})
 	router.Get("/check/query", func(w http.ResponseWriter, r *http.Request) {
 		queryParams := NewParamsParser(r.URL.Query())
 		pString := queryParams.String("p_string")
