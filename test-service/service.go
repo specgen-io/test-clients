@@ -1,4 +1,4 @@
-//go:generate specgen service-go --module-name test-service --spec-file ./../spec.yaml --generate-path .
+//go:generate specgen service-go --spec-file ./../spec.yaml --module-name test-service --generate-path . --swagger-path docs/swagger.yaml
 
 package main
 
@@ -8,8 +8,9 @@ import (
 	"github.com/husobee/vestigo"
 	"log"
 	"net/http"
+	"test-service/services"
+	"test-service/services/v2"
 	"test-service/spec"
-	"test-service/v2"
 )
 
 func main() {
@@ -18,16 +19,20 @@ func main() {
 
 	router := vestigo.NewRouter()
 
-	router.Get("/", func (w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(200)
-	})
+	router.Get("/", func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(200) })
 
 	router.SetGlobalCors(&vestigo.CorsAccessControl{
-		AllowOrigin:      []string{"*", "*"},
+		AllowOrigin: []string{"*", "*"},
 	})
 
-	spec.AddRoutes(router, &v2.EchoService{}, &EchoService{}, &CheckService{})
+	echoServiceV2 := &v2.EchoService{}
+	echoService := &services.EchoService{}
+	checkService := &services.CheckService{}
 
-	fmt.Println("Starting service on port: "+*port)
+	spec.AddRoutes(router, echoServiceV2, echoService, checkService)
+
+	router.Get("/docs/*", http.StripPrefix("/docs/", http.FileServer(http.Dir("docs"))).ServeHTTP)
+
+	fmt.Println("Starting service on port: " + *port)
 	log.Fatal(http.ListenAndServe(":"+*port, router))
 }
