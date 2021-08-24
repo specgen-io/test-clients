@@ -1,4 +1,4 @@
-//go:generate specgen service-go --spec-file ./../spec.yaml --generate-path .
+//go:generate specgen service-go --module-name test-service --spec-file ./../spec.yaml --generate-path .
 
 package main
 
@@ -6,10 +6,10 @@ import (
 	"flag"
 	"fmt"
 	"github.com/husobee/vestigo"
-	"github.com/specgen-io/test-service-go/spec"
-	"github.com/specgen-io/test-service-go/spec_v2"
 	"log"
 	"net/http"
+	"test-service/spec"
+	"test-service/v2"
 )
 
 func main() {
@@ -26,9 +26,7 @@ func main() {
 		AllowOrigin:      []string{"*", "*"},
 	})
 
-	spec.AddEchoRoutes(router, &spec.EchoService{})
-	spec.AddCheckRoutes(router, &spec.CheckService{})
-	spec_v2.AddEchoRoutes(router, &spec_v2.EchoService{})
+	spec.AddRoutes(router, &v2.EchoService{}, &EchoService{}, &CheckService{})
 
 	fmt.Println("Starting service on port: "+*port)
 	log.Fatal(http.ListenAndServe(":"+*port, router))
