@@ -4,9 +4,9 @@ import (
 	"cloud.google.com/go/civil"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
-	"github.com/specgen-io/test-client-go/spec"
-	"github.com/specgen-io/test-client-go/spec_v2"
 	"gotest.tools/assert"
+	"test-client/spec"
+	"test-client/spec/v2"
 	"testing"
 )
 
@@ -88,9 +88,9 @@ func Test_Check_Response_Forbidden(t *testing.T) {
 }
 
 func Test_Echo_Body_V2(t *testing.T) {
-	client := spec_v2.NewEchoClient(service_url)
-	expectedMessage := &spec_v2.Message{true, "the string"}
-	response, err := client.EchoBody(&spec_v2.Message{true, "the string"})
+	client := v2.NewEchoClient(service_url)
+	expectedMessage := &v2.Message{true, "the string"}
+	response, err := client.EchoBody(&v2.Message{true, "the string"})
 	assert.NilError(t, err)
 	assert.NilError(t, err, response.Ok)
 	assert.DeepEqual(t, expectedMessage, response.Ok)

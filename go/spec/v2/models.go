@@ -1,4 +1,4 @@
-package spec_v2
+package v2
 
 type Message struct {
 	BoolField bool `json:"bool_field"`
