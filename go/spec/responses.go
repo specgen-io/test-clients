@@ -1,10 +1,8 @@
 package spec
 
-import (
-	"cloud.google.com/go/civil"
-	"github.com/google/uuid"
-	"github.com/shopspring/decimal"
-)
+import "cloud.google.com/go/civil"
+import "github.com/google/uuid"
+import "github.com/shopspring/decimal"
 
 type EmptyDef struct{}
 
@@ -33,6 +31,10 @@ type IEchoClient interface {
 	EchoUrlParams(intUrl int, stringUrl string) (*EchoUrlParamsResponse, error)
 }
 
+type CheckEmptyResponse struct {
+	Ok *EmptyDef
+}
+
 type CheckQueryResponse struct {
 	Ok *EmptyDef
 }
@@ -42,12 +44,13 @@ type CheckUrlParamsResponse struct {
 }
 
 type CheckForbiddenResponse struct {
-	Ok        *Message
+	Ok *Message
 	Forbidden *EmptyDef
 }
 
 type ICheckClient interface {
-	CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pFloat float64, pUuidOpt *uuid.UUID, pEnum Choice, pStringDefaulted string) (*CheckQueryResponse, error)
-	CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateTimeUrl civil.DateTime) (*CheckUrlParamsResponse, error)
+	CheckEmpty() (*CheckEmptyResponse, error)
+	CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum Choice, pStringDefaulted string) (*CheckQueryResponse, error)
+	CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date) (*CheckUrlParamsResponse, error)
 	CheckForbidden() (*CheckForbiddenResponse, error)
 }
