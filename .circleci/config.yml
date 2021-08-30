@@ -1,9 +1,12 @@
 version: 2.1
 
+orbs:
+  artifactory: specgen/artifactory@0.1.0
+
 parameters:
   specgen-version:
     type: string
-    default: 2.0.487
+    default: 2.0.494
 
   specgen-version-major:
     type: string
@@ -84,7 +87,7 @@ jobs:
       - restore_cache:
           keys:
             - cache-{{ checksum "./scala-sttp/build.sbt" }}
-      - setup-sbt:
+      - artifactory/setup-sbt:
           jfrog-server-url: specgen.jfrog.io
           repo-name: sbt
       - start-service:
@@ -131,24 +134,6 @@ jobs:
           path: ./ts-axios-superstruct/test-results
           
 commands:
-  setup-sbt:
-    parameters:
-      jfrog-server-url:
-        type: string
-      repo-name:
-        type: string
-    steps:
-      - run:
-          name: Setup Artifactory for SBT
-          command: |
-            mkdir -p ~/.sbt/1.0
-            tee > ~/.sbt/1.0/artifactory.sbt \<<END
-            credentials += Credentials("Artifactory Realm", "<< parameters.jfrog-server-url >>", "$JFROG_USER", "$JFROG_PASS")
-            val artifactory = "Artifactory Realm" at "https://<< parameters.jfrog-server-url >>/artifactory/<< parameters.repo-name >>"
-            resolvers += artifactory
-            publishTo := Some(artifactory)
-            END
-
   start-service:
     parameters:
       port:
