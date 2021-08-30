@@ -1,4 +1,4 @@
-package spec_v2
+package v2
 
 import (
 	"cloud.google.com/go/civil"
