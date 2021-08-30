@@ -1,4 +1,4 @@
-module github.com/specgen-io/test-client-go
+module test-client
 
 go 1.16
 
