@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  artifactory: specgen/artifactory@0.2.0
+  artifactory: specgen/artifactory@0.4.0
 
 parameters:
   specgen-version:
@@ -61,17 +61,13 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - artifactory/setup-gems:
+      - artifactory/setup-bundler:
           jfrog-server-url: specgen.jfrog.io
-          repo-name: gems
       - start-service:
           port: 8081
       - run:
           name: Test Ruby client
           command: |
-            export JFROG_USER_SAFE=$(echo "$JFROG_USER" | sed "s/@/%40/")
-            bundle config specgen.jfrog.io $JFROG_USER_SAFE:$JFROG_PASS
-
             cd ./ruby
             tee --append ./Gemfile \<<END
 
@@ -79,9 +75,6 @@ jobs:
               gem 'specgen', '<< pipeline.parameters.specgen-version >>'
             end
             END
-            
-            cat ./Gemfile
-
             bundle install
             export SERVICE_URL=http://localhost:8081
             rake
