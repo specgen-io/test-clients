@@ -69,10 +69,12 @@ jobs:
       - run:
           name: Test Ruby client
           command: |
-            cd ./ruby
+            export JFROG_USER_SAFE=$(echo "$JFROG_USER" | sed "s/@/%40/")
+            bundle config specgen.jfrog.io $JFROG_USER_SAFE:$JFROG_PASS
 
+            cd ./ruby
             tee --append ./Gemfile \<<END
-            
+
             source 'https://specgen.jfrog.io/artifactory/api/gems/gems/' do
               gem 'specgen', '<< pipeline.parameters.specgen-version >>'
             end
@@ -80,7 +82,6 @@ jobs:
             
             cat ./Gemfile
 
-            bundle config specgen.jfrog.io $JFROG_USER:$JFROG_PASS
             bundle install
             export SERVICE_URL=http://localhost:8081
             rake
