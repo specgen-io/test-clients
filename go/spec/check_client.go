@@ -1,6 +1,7 @@
 package spec
 
 import "fmt"
+import log "github.com/sirupsen/logrus"
 import "errors"
 import "io/ioutil"
 import "net/http"
@@ -19,23 +20,50 @@ func NewCheckClient(baseUrl string) *checkClient {
 
 func (client *checkClient) CheckEmpty() (*CheckEmptyResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/empty", nil)
-	if err != nil { return nil, err }
+	operationId := "http.echo.echo_empty"
+	url := "/check/empty"
+	log.WithFields(log.Fields{
+		"operationId": operationId,
+		"url":         url,
+	}).Info("Get request execution")
+
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	resp, err := http.DefaultClient.Do(req)
-	if err != nil { return nil, err }
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	if resp.StatusCode == 200 {
 		body := &Empty
-
+		log.WithFields(log.Fields{
+			"json": *body,
+		}).Info("Status code: 200")
+		log.Info("Request completed")
 		return &CheckEmptyResponse{Ok: body}, nil
 	}
 
+	log.Info("Request completed")
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
 func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum Choice, pStringDefaulted string) (*CheckQueryResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/query", nil)
-	if err != nil { return nil, err }
+	operationId := "http.echo.echo_query"
+	url := "/check/query"
+	log.WithFields(log.Fields{
+		"operationId": operationId,
+		"url":         url,
+	}).Info("Get request execution")
+
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	query := req.URL.Query()
 	q := NewParamsConverter(query)
@@ -53,39 +81,76 @@ func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStrin
 	req.URL.RawQuery = query.Encode()
 
 	resp, err := http.DefaultClient.Do(req)
-	if err != nil { return nil, err }
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	if resp.StatusCode == 200 {
 		body := &Empty
-
+		log.WithFields(log.Fields{
+			"json": *body,
+		}).Info("Status code: 200")
+		log.Info("Request completed")
 		return &CheckQueryResponse{Ok: body}, nil
 	}
 
+	log.Info("Request completed")
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
 func (client *checkClient) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date) (*CheckUrlParamsResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/check/url_params/%s/%s/%s/%s/%s/%s/%s", convertInt64(intUrl), stringUrl, convertFloat32(floatUrl), convertBool(boolUrl), convertUuid(uuidUrl), convertDecimal(decimalUrl), convertDate(dateUrl)), nil)
-	if err != nil { return nil, err }
+	operationId := "http.echo.echo_url_params"
+	url := fmt.Sprintf("/check/url_params/%s/%s/%s/%s/%s/%s/%s", convertInt64(intUrl), stringUrl, convertFloat32(floatUrl), convertBool(boolUrl), convertUuid(uuidUrl), convertDecimal(decimalUrl), convertDate(dateUrl))
+	log.WithFields(log.Fields{
+		"operationId": operationId,
+		"url":         url,
+	}).Info("Get request execution")
+
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	resp, err := http.DefaultClient.Do(req)
-	if err != nil { return nil, err }
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	if resp.StatusCode == 200 {
 		body := &Empty
-
+		log.WithFields(log.Fields{
+			"json": *body,
+		}).Info("Status code: 200")
+		log.Info("Request completed")
 		return &CheckUrlParamsResponse{Ok: body}, nil
 	}
 
+	log.Info("Request completed")
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
 func (client *checkClient) CheckForbidden() (*CheckForbiddenResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/forbidden", nil)
-	if err != nil { return nil, err }
+	operationId := "http.echo.echo_forbidden"
+	url := "/check/forbidden"
+	log.WithFields(log.Fields{
+		"operationId": operationId,
+		"url":         url,
+	}).Info("Get request execution")
+
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	resp, err := http.DefaultClient.Do(req)
-	if err != nil { return nil, err }
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
 
 	if resp.StatusCode == 200 {
 		responseBody, err := ioutil.ReadAll(resp.Body)
@@ -93,16 +158,28 @@ func (client *checkClient) CheckForbidden() (*CheckForbiddenResponse, error) {
 
 		var body *Message
 		err = json.Unmarshal(responseBody, &body)
-		if err != nil { return nil, err }
+		log.WithFields(log.Fields{
+			"json": *body,
+		}).Info("Status code: 200")
 
+		if err != nil {
+			log.Error(err)
+			return nil, err
+		}
+
+		log.Info("Request completed")
 		return &CheckForbiddenResponse{Ok: body}, nil
 	}
 
 	if resp.StatusCode == 403 {
 		body := &Empty
-
+		log.WithFields(log.Fields{
+			"json": *body,
+		}).Info("Status code: 403")
+		log.Info("Request completed")
 		return &CheckForbiddenResponse{Forbidden: body}, nil
 	}
 
+	log.Info("Request completed")
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }

@@ -48,6 +48,13 @@ func Test_Echo_Url_Params(t *testing.T) {
 	assert.DeepEqual(t, expectedMessage, response.Ok)
 }
 
+func Test_Check_Response_Empty(t *testing.T) {
+	client := spec.NewCheckClient(service_url)
+	response, err := client.CheckEmpty()
+	assert.NilError(t, err)
+	assert.NilError(t, err, response.Ok)
+}
+
 func Test_Check_Query_Params(t *testing.T) {
 	client := spec.NewCheckClient(service_url)
 	pString := "the string 1"
