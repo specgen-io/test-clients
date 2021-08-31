@@ -69,6 +69,7 @@ jobs:
       - run:
           name: Test Ruby client
           command: |
+            gem sources --list            
             cd ./ruby
             bundle inject specgen "= << pipeline.parameters.specgen-version >>"
             bundle install
