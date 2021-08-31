@@ -20,7 +20,7 @@ func NewCheckClient(baseUrl string) *checkClient {
 
 func (client *checkClient) CheckEmpty() (*CheckEmptyResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/empty", nil)
-	operationId := "http.echo.echo_empty"
+	operationId := "http.check.check_empty"
 	url := "/check/empty"
 	log.WithFields(log.Fields{
 		"operationId": operationId,
@@ -53,7 +53,7 @@ func (client *checkClient) CheckEmpty() (*CheckEmptyResponse, error) {
 
 func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum Choice, pStringDefaulted string) (*CheckQueryResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/query", nil)
-	operationId := "http.echo.echo_query"
+	operationId := "http.check.check_query"
 	url := "/check/query"
 	log.WithFields(log.Fields{
 		"operationId": operationId,
@@ -101,7 +101,7 @@ func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStrin
 
 func (client *checkClient) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date) (*CheckUrlParamsResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/check/url_params/%s/%s/%s/%s/%s/%s/%s", convertInt64(intUrl), stringUrl, convertFloat32(floatUrl), convertBool(boolUrl), convertUuid(uuidUrl), convertDecimal(decimalUrl), convertDate(dateUrl)), nil)
-	operationId := "http.echo.echo_url_params"
+	operationId := "http.check.check_url_params"
 	url := fmt.Sprintf("/check/url_params/%s/%s/%s/%s/%s/%s/%s", convertInt64(intUrl), stringUrl, convertFloat32(floatUrl), convertBool(boolUrl), convertUuid(uuidUrl), convertDecimal(decimalUrl), convertDate(dateUrl))
 	log.WithFields(log.Fields{
 		"operationId": operationId,
@@ -134,7 +134,7 @@ func (client *checkClient) CheckUrlParams(intUrl int64, stringUrl string, floatU
 
 func (client *checkClient) CheckForbidden() (*CheckForbiddenResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/forbidden", nil)
-	operationId := "http.echo.echo_forbidden"
+	operationId := "http.check.check_forbidden"
 	url := "/check/forbidden"
 	log.WithFields(log.Fields{
 		"operationId": operationId,
