@@ -1,12 +1,12 @@
 version: 2.1
 
 orbs:
-  artifactory: specgen/artifactory@0.4.0
+  artifactory: specgen/artifactory@0.5.0
 
 parameters:
   specgen-version:
     type: string
-    default: 2.0.519
+    default: 2.0.527
 
   specgen-version-major:
     type: string
@@ -119,18 +119,22 @@ jobs:
       SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
     working_directory: ~/specgen-tests
     docker:
-      - image: cimg/node:14.15.1
+      - image: cimg/node:16.8.0
     steps:
       - checkout
       - attach_workspace:
           at: .
       - start-service:
           port: 8081
+      - artifactory/setup-npm:
+          jfrog-server-url: specgen.jfrog.io
+          repo-name: npm
+          scope: specgen.io
       - run:
           name: Test axios client
           command: |
             cd ./ts-axios-superstruct
-            npm add specgen.io@$SPECGEN_VERSION
+            npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
             npm install
             npm run specgen
             export SERVICE_URL=http://localhost:8081
