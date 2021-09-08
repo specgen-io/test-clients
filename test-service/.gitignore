@@ -2,3 +2,5 @@
 vendor/
 dist/
 zips/
+test-service
+spec/
