@@ -1,5 +1,5 @@
-import {Message, Choice} from '../models'
-import {echoClient, checkClient, EchoQueryResponse} from '../index'
+import {Message, Choice} from '../test-service/models'
+import {echoClient, checkClient, EchoQueryResponse} from '../test-service/index'
 import axios from "axios";
 
 const axiosInstance = axios.create({baseURL: process.env.SERVICE_URL!, timeout: 20000});
