@@ -115,7 +115,7 @@ jobs:
             - ~/.sbt
             - ~/.ivy2
 
-  ts-axios:
+  ts-axios-superstruct:
     environment:
       SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
     working_directory: ~/specgen-tests
@@ -144,7 +144,37 @@ jobs:
             npm run test
       - store_test_results:
           path: ./ts-axios-superstruct/test-results
-          
+
+  ts-axios-iots:
+    environment:
+      SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
+    working_directory: ~/specgen-tests
+    docker:
+      - image: cimg/node:16.8.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - start-service:
+          port: 8081
+      - artifactory/setup-npm:
+          jfrog-server-url: specgen.jfrog.io
+          repo-name: npm
+          scope: specgen.io
+      - run:
+          name: Test axios client
+          command: |
+            cd ./ts-axios-iots
+            npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
+            npm install
+            npm run specgen
+            export SERVICE_URL=http://localhost:8081
+            mkdir -p ./test-results
+            export JEST_JUNIT_OUTPUT_DIR=./test-results
+            npm run test
+      - store_test_results:
+          path: ./ts-axios-iots/test-results
+
 commands:
   start-service:
     parameters:
@@ -203,7 +233,11 @@ workflows:
           context: specgen
           requires:
             - test-service
-      - ts-axios:
+      - ts-axios-superstruct:
+          context: specgen
+          requires:
+            - test-service
+      - ts-axios-iots:
           context: specgen
           requires:
             - test-service
