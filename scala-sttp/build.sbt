@@ -3,8 +3,6 @@ name := "echo-client"
 scalaVersion := "2.13.2"
 version := "0.0.1"
 
-useJCenter := true
-
 enablePlugins(SpecSttp)
 
 specFile := file("./../spec.yaml")
