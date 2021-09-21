@@ -3,12 +3,13 @@ package services
 import "cloud.google.com/go/civil"
 import "github.com/google/uuid"
 import "github.com/shopspring/decimal"
-import "test-service/spec"
+import "test-service/spec/check"
+import "test-service/spec/models"
 
 type CheckService struct{}
 
-func (service *CheckService) CheckEmpty() (*spec.CheckEmptyResponse, error) {
-	return &spec.CheckEmptyResponse{Ok: &spec.Empty}, nil
+func (service *CheckService) CheckEmpty() (*check.CheckEmptyResponse, error) {
+	return &check.CheckEmptyResponse{Ok: &check.Empty}, nil
 }
 func (service *CheckService) CheckQuery(pString string,
 	pStringOpt *string,
@@ -19,10 +20,10 @@ func (service *CheckService) CheckQuery(pString string,
 	pInt int,
 	pLong int64,
 	pDecimal decimal.Decimal,
-	pEnum spec.Choice,
-	pStringDefaulted string) (*spec.CheckQueryResponse, error) {
+	pEnum models.Choice,
+	pStringDefaulted string) (*check.CheckQueryResponse, error) {
 
-	return &spec.CheckQueryResponse{Ok: &spec.Empty}, nil
+	return &check.CheckQueryResponse{Ok: &check.Empty}, nil
 }
 func (service *CheckService) CheckUrlParams(
 	intUrl int64,
@@ -31,10 +32,10 @@ func (service *CheckService) CheckUrlParams(
 	boolUrl bool,
 	uuidUrl uuid.UUID,
 	decimalUrl decimal.Decimal,
-	dateUrl civil.Date) (*spec.CheckUrlParamsResponse, error) {
+	dateUrl civil.Date) (*check.CheckUrlParamsResponse, error) {
 
-	return &spec.CheckUrlParamsResponse{Ok: &spec.Empty}, nil
+	return &check.CheckUrlParamsResponse{Ok: &check.Empty}, nil
 }
-func (service *CheckService) CheckForbidden() (*spec.CheckForbiddenResponse, error) {
-	return &spec.CheckForbiddenResponse{Forbidden: &spec.Empty}, nil
+func (service *CheckService) CheckForbidden() (*check.CheckForbiddenResponse, error) {
+	return &check.CheckForbiddenResponse{Forbidden: &check.Empty}, nil
 }
