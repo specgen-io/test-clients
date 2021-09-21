@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.0.584
+    default: 2.0.588
 
   specgen-version-major:
     type: string
