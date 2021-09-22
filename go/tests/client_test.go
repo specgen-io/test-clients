@@ -6,7 +6,7 @@ import (
 	"github.com/shopspring/decimal"
 	"gotest.tools/assert"
 	"test-client/spec"
-	"test-client/spec/v2"
+	"test-client/spec/models"
 	"testing"
 )
 
@@ -14,8 +14,8 @@ var service_url = "http://localhost:8081"
 
 func Test_Echo_Body(t *testing.T) {
 	client := spec.NewEchoClient(service_url)
-	expectedMessage := &spec.Message{123, "the string"}
-	response, err := client.EchoBody(&spec.Message{123, "the string"})
+	expectedMessage := &models.Message{123, "the string"}
+	response, err := client.EchoBody(&models.Message{123, "the string"})
 	assert.NilError(t, err)
 	assert.NilError(t, err, response.Ok)
 	assert.DeepEqual(t, expectedMessage, response.Ok)
@@ -23,7 +23,7 @@ func Test_Echo_Body(t *testing.T) {
 
 func Test_Echo_Query(t *testing.T) {
 	client := spec.NewEchoClient(service_url)
-	expectedMessage := &spec.Message{123, "the string"}
+	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoQuery(123, "the string")
 	assert.NilError(t, err)
 	assert.NilError(t, err, response.Ok)
@@ -32,7 +32,7 @@ func Test_Echo_Query(t *testing.T) {
 
 func Test_Echo_Header(t *testing.T) {
 	client := spec.NewEchoClient(service_url)
-	expectedMessage := &spec.Message{123, "the string"}
+	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoHeader(123, "the string")
 	assert.NilError(t, err)
 	assert.NilError(t, err, response.Ok)
@@ -41,7 +41,7 @@ func Test_Echo_Header(t *testing.T) {
 
 func Test_Echo_Url_Params(t *testing.T) {
 	client := spec.NewEchoClient(service_url)
-	expectedMessage := &spec.Message{123, "the string"}
+	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoUrlParams(123, "the string")
 	assert.NilError(t, err)
 	assert.NilError(t, err, response.Ok)
@@ -61,7 +61,7 @@ func Test_Check_Query_Params(t *testing.T) {
 	pInt := 123
 	var pLong int64 = 1234
 	pDecimal, _ := decimal.NewFromString("1.23")
-	pEnum := spec.Choice("SECOND_CHOICE")
+	pEnum := models.Choice("SECOND_CHOICE")
 	pStringDefaulted := "value"
 	response, err := client.CheckQuery(pString, &pStringOpt, pStringArray, pDate, pDateArray, pDatetime, pInt, pLong, pDecimal, pEnum, pStringDefaulted)
 	assert.NilError(t, err)
@@ -85,13 +85,4 @@ func Test_Check_Response_Forbidden(t *testing.T) {
 	assert.NilError(t, err)
 	assert.NilError(t, err, response.Forbidden)
 	assert.NilError(t, err, response.Ok)
-}
-
-func Test_Echo_Body_V2(t *testing.T) {
-	client := v2.NewEchoClient(service_url)
-	expectedMessage := &v2.Message{true, "the string"}
-	response, err := client.EchoBody(&v2.Message{true, "the string"})
-	assert.NilError(t, err)
-	assert.NilError(t, err, response.Ok)
-	assert.DeepEqual(t, expectedMessage, response.Ok)
 }
