@@ -5,7 +5,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"gotest.tools/assert"
-	"test-client/spec"
+	"test-client/spec/echo"
+	"test-client/spec/check"
 	"test-client/spec/models"
 	"testing"
 )
@@ -13,7 +14,7 @@ import (
 var service_url = "http://localhost:8081"
 
 func Test_Echo_Body(t *testing.T) {
-	client := spec.NewEchoClient(service_url)
+	client := echo.NewClient(service_url)
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoBody(&models.Message{123, "the string"})
 	assert.NilError(t, err)
@@ -22,7 +23,7 @@ func Test_Echo_Body(t *testing.T) {
 }
 
 func Test_Echo_Query(t *testing.T) {
-	client := spec.NewEchoClient(service_url)
+	client := echo.NewClient(service_url)
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoQuery(123, "the string")
 	assert.NilError(t, err)
@@ -31,7 +32,7 @@ func Test_Echo_Query(t *testing.T) {
 }
 
 func Test_Echo_Header(t *testing.T) {
-	client := spec.NewEchoClient(service_url)
+	client := echo.NewClient(service_url)
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoHeader(123, "the string")
 	assert.NilError(t, err)
@@ -40,7 +41,7 @@ func Test_Echo_Header(t *testing.T) {
 }
 
 func Test_Echo_Url_Params(t *testing.T) {
-	client := spec.NewEchoClient(service_url)
+	client := echo.NewClient(service_url)
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoUrlParams(123, "the string")
 	assert.NilError(t, err)
@@ -49,7 +50,7 @@ func Test_Echo_Url_Params(t *testing.T) {
 }
 
 func Test_Check_Query_Params(t *testing.T) {
-	client := spec.NewCheckClient(service_url)
+	client := check.NewClient(service_url)
 	pString := "the string 1"
 	pStringOpt := "the string 2"
 	pStringArray := []string{"str1", "str2"}
@@ -69,7 +70,7 @@ func Test_Check_Query_Params(t *testing.T) {
 }
 
 func Test_Check_Url_Params(t *testing.T) {
-	client := spec.NewCheckClient(service_url)
+	client := check.NewClient(service_url)
 	var longField int64 = 1234
 	uuidField, _ := uuid.Parse("123e4567-e89b-12d3-a456-426655440000")
 	decimalField, _ := decimal.NewFromString("1.23")
@@ -80,7 +81,7 @@ func Test_Check_Url_Params(t *testing.T) {
 }
 
 func Test_Check_Response_Forbidden(t *testing.T) {
-	client := spec.NewCheckClient(service_url)
+	client := check.NewClient(service_url)
 	response, err := client.CheckForbidden()
 	assert.NilError(t, err)
 	assert.NilError(t, err, response.Forbidden)

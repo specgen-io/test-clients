@@ -17,3 +17,7 @@ func (service *EchoService) EchoHeader(intHeader int, stringHeader string) (*ech
 func (service *EchoService) EchoUrlParams(intUrl int, stringUrl string) (*echo.EchoUrlParamsResponse, error) {
 	return &echo.EchoUrlParamsResponse{Ok: &models.Message{IntField: intUrl, StringField: stringUrl}}, nil
 }
+
+func (service *EchoService) SameOperationName() (*echo.SameOperationNameResponse, error) {
+	return &echo.SameOperationNameResponse{Ok: &echo.Empty}, nil
+}
