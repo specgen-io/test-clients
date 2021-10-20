@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.0.711
+    default: 2.0.782
 
   specgen-version-major:
     type: string
@@ -131,6 +131,9 @@ jobs:
           jfrog-server-url: specgen.jfrog.io
           repo-name: npm
           scope: specgen.io
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "./ts-axios-superstruct/package.json" }}
       - run:
           name: Test axios client
           command: |
@@ -142,6 +145,10 @@ jobs:
             mkdir -p ./test-results
             export JEST_JUNIT_OUTPUT_DIR=./test-results
             npm run test
+      - save_cache:
+          key: cache-{{ checksum "./ts-axios-superstruct/package.json" }}
+          paths:
+            - ~/specgen-tests/ts-axios-superstruct/node_modules            
       - store_test_results:
           path: ./ts-axios-superstruct/test-results
 
@@ -161,6 +168,9 @@ jobs:
           jfrog-server-url: specgen.jfrog.io
           repo-name: npm
           scope: specgen.io
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "./ts-axios-iots/package.json" }}
       - run:
           name: Test axios client
           command: |
@@ -172,6 +182,10 @@ jobs:
             mkdir -p ./test-results
             export JEST_JUNIT_OUTPUT_DIR=./test-results
             npm run test
+      - save_cache:
+          key: cache-{{ checksum "./ts-axios-iots/package.json" }}
+          paths:
+            - ~/specgen-tests/ts-axios-iots/node_modules            
       - store_test_results:
           path: ./ts-axios-iots/test-results
 
