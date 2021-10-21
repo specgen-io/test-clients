@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.0.782
+    default: 2.0.786
 
   specgen-version-major:
     type: string
@@ -66,6 +66,9 @@ jobs:
           jfrog-server-url: specgen.jfrog.io
       - start-service:
           port: 8081
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "./ruby/Gemfile.lock" }}
       - run:
           name: Test Ruby client
           command: |
@@ -79,6 +82,10 @@ jobs:
             bundle install
             export SERVICE_URL=http://localhost:8081
             rake
+      - save_cache:
+          key: cache-{{ checksum "./ruby/Gemfile.lock" }}
+          paths:
+            - ~/specgen-tests/ruby/vendor/bundle            
       - store_test_results:
           path: ./ruby/test-results
 
