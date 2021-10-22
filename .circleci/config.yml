@@ -66,11 +66,8 @@ jobs:
           jfrog-server-url: specgen.jfrog.io
       - start-service:
           port: 8081
-      - restore_cache:
-          keys:
-            - cache-{{ checksum "./ruby/Gemfile.lock" }}
       - run:
-          name: Test Ruby client
+          name: Setup Gemfile
           command: |
             cd ./ruby
             tee --append ./Gemfile \<<END
@@ -79,6 +76,13 @@ jobs:
               gem 'specgen', '<< pipeline.parameters.specgen-version >>'
             end
             END
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "./ruby/Gemfile.lock" }}
+      - run:
+          name: Test Ruby client
+          command: |
+            cd ./ruby
             bundle install
             export SERVICE_URL=http://localhost:8081
             rake
@@ -138,6 +142,11 @@ jobs:
           jfrog-server-url: specgen.jfrog.io
           repo-name: npm
           scope: specgen.io
+      - run:
+          name: Setup npm
+          command: |
+            cd ./ts-axios-superstruct
+            npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
       - restore_cache:
           keys:
             - cache-{{ checksum "./ts-axios-superstruct/package.json" }}
@@ -145,7 +154,6 @@ jobs:
           name: Test axios client
           command: |
             cd ./ts-axios-superstruct
-            npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
             npm install
             npm run specgen
             export SERVICE_URL=http://localhost:8081
@@ -175,6 +183,11 @@ jobs:
           jfrog-server-url: specgen.jfrog.io
           repo-name: npm
           scope: specgen.io
+      - run:
+          name: Setup npm
+          command: |
+            cd ./ts-axios-iots
+            npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
       - restore_cache:
           keys:
             - cache-{{ checksum "./ts-axios-iots/package.json" }}
@@ -182,7 +195,6 @@ jobs:
           name: Test axios client
           command: |
             cd ./ts-axios-iots
-            npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
             npm install
             npm run specgen
             export SERVICE_URL=http://localhost:8081
