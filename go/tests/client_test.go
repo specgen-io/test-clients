@@ -5,8 +5,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"gotest.tools/assert"
-	"test-client/spec/echo"
 	"test-client/spec/check"
+	"test-client/spec/echo"
 	"test-client/spec/models"
 	"testing"
 )
@@ -18,8 +18,8 @@ func Test_Echo_Body(t *testing.T) {
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoBody(&models.Message{123, "the string"})
 	assert.NilError(t, err)
-	assert.NilError(t, err, response.Ok)
-	assert.DeepEqual(t, expectedMessage, response.Ok)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
 }
 
 func Test_Echo_Query(t *testing.T) {
@@ -27,8 +27,8 @@ func Test_Echo_Query(t *testing.T) {
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoQuery(123, "the string")
 	assert.NilError(t, err)
-	assert.NilError(t, err, response.Ok)
-	assert.DeepEqual(t, expectedMessage, response.Ok)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
 }
 
 func Test_Echo_Header(t *testing.T) {
@@ -36,8 +36,8 @@ func Test_Echo_Header(t *testing.T) {
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoHeader(123, "the string")
 	assert.NilError(t, err)
-	assert.NilError(t, err, response.Ok)
-	assert.DeepEqual(t, expectedMessage, response.Ok)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
 }
 
 func Test_Echo_Url_Params(t *testing.T) {
@@ -45,8 +45,8 @@ func Test_Echo_Url_Params(t *testing.T) {
 	expectedMessage := &models.Message{123, "the string"}
 	response, err := client.EchoUrlParams(123, "the string")
 	assert.NilError(t, err)
-	assert.NilError(t, err, response.Ok)
-	assert.DeepEqual(t, expectedMessage, response.Ok)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
 }
 
 func Test_Check_Query_Params(t *testing.T) {
@@ -64,9 +64,8 @@ func Test_Check_Query_Params(t *testing.T) {
 	pDecimal, _ := decimal.NewFromString("1.23")
 	pEnum := models.Choice("SECOND_CHOICE")
 	pStringDefaulted := "value"
-	response, err := client.CheckQuery(pString, &pStringOpt, pStringArray, pDate, pDateArray, pDatetime, pInt, pLong, pDecimal, pEnum, pStringDefaulted)
+	err := client.CheckQuery(pString, &pStringOpt, pStringArray, pDate, pDateArray, pDatetime, pInt, pLong, pDecimal, pEnum, pStringDefaulted)
 	assert.NilError(t, err)
-	assert.NilError(t, err, response.Ok)
 }
 
 func Test_Check_Url_Params(t *testing.T) {
@@ -75,9 +74,8 @@ func Test_Check_Url_Params(t *testing.T) {
 	uuidField, _ := uuid.Parse("123e4567-e89b-12d3-a456-426655440000")
 	decimalField, _ := decimal.NewFromString("1.23")
 	dateField, _ := civil.ParseDate("2019-11-30")
-	response, err := client.CheckUrlParams(longField, "the string", 1.23, true, uuidField, decimalField, dateField)
+	err := client.CheckUrlParams(longField, "the string", 1.23, true, uuidField, decimalField, dateField)
 	assert.NilError(t, err)
-	assert.NilError(t, err, response.Ok)
 }
 
 func Test_Check_Response_Forbidden(t *testing.T) {
