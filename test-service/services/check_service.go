@@ -8,8 +8,8 @@ import "test-service/spec/models"
 
 type CheckService struct{}
 
-func (service *CheckService) CheckEmpty() (*check.CheckEmptyResponse, error) {
-	return &check.CheckEmptyResponse{Ok: &check.Empty}, nil
+func (service *CheckService) CheckEmpty() (*check.EmptyDef, error) {
+	return &check.EmptyDef{}, nil
 }
 func (service *CheckService) CheckQuery(pString string,
 	pStringOpt *string,
@@ -21,9 +21,9 @@ func (service *CheckService) CheckQuery(pString string,
 	pLong int64,
 	pDecimal decimal.Decimal,
 	pEnum models.Choice,
-	pStringDefaulted string) (*check.CheckQueryResponse, error) {
+	pStringDefaulted string) (*check.EmptyDef, error) {
 
-	return &check.CheckQueryResponse{Ok: &check.Empty}, nil
+	return &check.EmptyDef{}, nil
 }
 func (service *CheckService) CheckUrlParams(
 	intUrl int64,
@@ -32,9 +32,9 @@ func (service *CheckService) CheckUrlParams(
 	boolUrl bool,
 	uuidUrl uuid.UUID,
 	decimalUrl decimal.Decimal,
-	dateUrl civil.Date) (*check.CheckUrlParamsResponse, error) {
+	dateUrl civil.Date) (*check.EmptyDef, error) {
 
-	return &check.CheckUrlParamsResponse{Ok: &check.Empty}, nil
+	return &check.EmptyDef{}, nil
 }
 func (service *CheckService) CheckForbidden() (*check.CheckForbiddenResponse, error) {
 	return &check.CheckForbiddenResponse{Forbidden: &check.Empty}, nil
