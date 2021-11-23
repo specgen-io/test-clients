@@ -32,7 +32,8 @@ func (service *CheckService) CheckUrlParams(
 	boolUrl bool,
 	uuidUrl uuid.UUID,
 	decimalUrl decimal.Decimal,
-	dateUrl civil.Date) error {
+	dateUrl civil.Date,
+	enumUrl models.Choice) error {
 
 	return nil
 }
