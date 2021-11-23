@@ -1,3 +1,5 @@
+package test_client;
+
 import org.junit.jupiter.api.Test;
 import test_client.clients.check.*;
 import test_client.clients.echo.*;
