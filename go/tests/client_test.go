@@ -70,11 +70,15 @@ func Test_Check_Query_Params(t *testing.T) {
 
 func Test_Check_Url_Params(t *testing.T) {
 	client := check.NewClient(service_url)
-	var longField int64 = 1234
-	uuidField, _ := uuid.Parse("123e4567-e89b-12d3-a456-426655440000")
-	decimalField, _ := decimal.NewFromString("1.23")
-	dateField, _ := civil.ParseDate("2019-11-30")
-	err := client.CheckUrlParams(longField, "the string", 1.23, true, uuidField, decimalField, dateField)
+	var intUrl int64 = 1234
+	stringUrl := "the string"
+	var floatUrl float32 = 1.23
+	boolUrl := true
+	uuidUrl, _ := uuid.Parse("123e4567-e89b-12d3-a456-426655440000")
+	decimalUrl, _ := decimal.NewFromString("1.23")
+	dateUrl, _ := civil.ParseDate("2019-11-30")
+	enumUrl := models.Choice("SECOND_CHOICE")
+	err := client.CheckUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
 	assert.NilError(t, err)
 }
 
