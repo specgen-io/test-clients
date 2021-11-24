@@ -35,8 +35,7 @@ describe('client echo', function() {
 describe('client check', function() {
     let client = checkClient(axiosInstance)
     it('checkQuery', async function() {
-        let body: Message = {int_field: 123, string_field: "the string"}
-        let response = await client.checkQuery({
+        await client.checkQuery({
             pString: "the string",
             pStringArray: ["string 1", "string 2"],
             pDate: "2021-01-01",
@@ -49,6 +48,5 @@ describe('client check', function() {
             pStringOpt: "some string",
             pStringDefaulted: "the string",
         })
-        expect(response).toStrictEqual({status: "ok"});
     })
 });
