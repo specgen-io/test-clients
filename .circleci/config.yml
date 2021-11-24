@@ -84,7 +84,6 @@ jobs:
           key: cache-{{ checksum "./java-okhttp/pom.xml" }}
           paths:
             - ~/.m2
-            - ~/.ivy2
 
   ruby:
     working_directory: ~/specgen-tests
