@@ -1,8 +1,10 @@
 package test_client;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import test_client.v2.clients.echo.*;
 import test_client.v2.models.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientTestV2 {
 	public static final String BASE_URL = "http://localhost:8081";
@@ -24,3 +26,4 @@ public class ClientTestV2 {
 		assertDoesNotThrow(() -> client.echoBody(new Message(true, "the string")));
 	}
 }
+
