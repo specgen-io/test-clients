@@ -1,6 +1,6 @@
 package test_client;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import test_client.clients.check.*;
 import test_client.clients.echo.*;
 import test_client.models.*;
@@ -8,6 +8,8 @@ import test_client.models.*;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientTest {
 	public static final String BASE_URL = "http://localhost:8081";
