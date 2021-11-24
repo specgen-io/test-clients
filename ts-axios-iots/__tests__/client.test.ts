@@ -10,25 +10,25 @@ describe('client echo', function() {
     it('echoBody', async function() {
         let body: Message = {int_field: 123, string_field: "the string"}
         let response = await client.echoBody({body})
-        expect(response.data).toStrictEqual(body);
+        expect(response).toStrictEqual(body);
     })
 
     it('echoQuery', async function() {
         let expected: Message = {int_field: 123, string_field: "the string"}
         let response = await client.echoQuery({intQuery: 123, stringQuery: "the string"})
-        expect(response.data).toStrictEqual(expected);
+        expect(response).toStrictEqual(expected);
     })
 
     it('echoHeader', async function() {
         let expected: Message = {int_field: 123, string_field: "the string"}
         let response = await client.echoHeader({intHeader: 123, stringHeader: "the string"})
-        expect(response.data).toStrictEqual(expected);
+        expect(response).toStrictEqual(expected);
     })
 
     it('echoUrlParams', async function() {
         let expected: Message = {int_field: 123, string_field: "the string"}
         let response = await client.echoUrlParams({intUrl: 123, stringUrl: "the string"})
-        expect(response.data).toStrictEqual(expected);
+        expect(response).toStrictEqual(expected);
     })
 });
 
