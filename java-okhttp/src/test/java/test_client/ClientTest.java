@@ -15,6 +15,23 @@ public class ClientTest {
 	public static final String BASE_URL = "http://localhost:8081";
 
 	@Test
+	public void echoBodyString_responseIsEqualToRequest() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		String request = "TWFueSBoYW5kcyBtYWtlIGxpZ2h0IHdvcmsu";
+		String response = client.echoBodyString(request);
+
+		assertEquals(request, response);
+	}
+
+	@Test
+	public void echoBodyString_doesntThrowException() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		assertDoesNotThrow(() -> client.echoBodyString("TWFueSBoYW5kcyBtYWtlIGxpZ2h0IHdvcmsu"));
+	}
+
+	@Test
 	public void echoBody_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
