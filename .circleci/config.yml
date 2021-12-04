@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.1.910
+    default: 2.1.964
 
   specgen-version-major:
     type: string
@@ -198,6 +198,47 @@ jobs:
       - store_test_results:
           path: ./ts-axios-superstruct/test-results
 
+  ts-fetch-superstruct:
+    environment:
+      SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
+    working_directory: ~/specgen-tests
+    docker:
+      - image: cimg/node:16.8.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - start-service:
+          port: 8081
+      - artifactory/setup-npm:
+          jfrog-server-url: specgen.jfrog.io
+          repo-name: npm
+          scope: specgen.io
+      - run:
+          name: Setup npm
+          command: |
+            cd ./ts-fetch-superstruct
+            npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "./ts-fetch-superstruct/package.json" }}
+      - run:
+          name: Test fetch client
+          command: |
+            cd ./ts-fetch-superstruct
+            npm install
+            npm run specgen
+            export SERVICE_URL=http://localhost:8081
+            mkdir -p ./test-results
+            export JEST_JUNIT_OUTPUT_DIR=./test-results
+            npm run test
+      - save_cache:
+          key: cache-{{ checksum "./ts-fetch-superstruct/package.json" }}
+          paths:
+            - ~/specgen-tests/ts-fetch-superstruct/node_modules            
+      - store_test_results:
+          path: ./ts-fetch-superstruct/test-results
+
   ts-axios-iots:
     environment:
       SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
@@ -302,6 +343,10 @@ workflows:
           requires:
             - test-service
       - ts-axios-superstruct:
+          context: specgen
+          requires:
+            - test-service
+      - ts-fetch-superstruct:
           context: specgen
           requires:
             - test-service

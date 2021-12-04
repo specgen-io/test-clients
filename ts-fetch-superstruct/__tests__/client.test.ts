@@ -1,52 +1,57 @@
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
+
 import {Message, Choice} from '../test-service/models'
 import {client as echoClient} from '../test-service/echo'
-//import {client as checkClient} from '../test-service/check'
+import {client as checkClient} from '../test-service/check'
 
 const config = {baseURL: process.env.SERVICE_URL!}
 
-describe('client echo', function() {
-    let client = echoClient(config)
-    it('echoBody', async function() {
-        let body: Message = {int_field: 123, string_field: "the string"}
-        let response = await client.echoBody({body})
-        expect(response).toStrictEqual(body);
-    })
+test('echoBody', async function() {
+  const client = echoClient(config)
+  let body: Message = {int_field: 123, string_field: "the string"}
+  let response = await client.echoBody({body})
+  assert.equal(response, body, 'response matches request')
+})
 
-    it('echoQuery', async function() {
-        let expected: Message = {int_field: 123, string_field: "the string"}
-        let response = await client.echoQuery({intQuery: 123, stringQuery: "the string"})
-        expect(response).toStrictEqual(expected);
-    })
 
-    it('echoHeader', async function() {
-        let expected: Message = {int_field: 123, string_field: "the string"}
-        let response = await client.echoHeader({intHeader: 123, stringHeader: "the string"})
-        expect(response).toStrictEqual(expected);
-    })
+test('echoQuery', async function() {
+  const client = echoClient(config)
+  let expected: Message = {int_field: 123, string_field: "the string"}
+  let response = await client.echoQuery({intQuery: 123, stringQuery: "the string"})
+  assert.equal(response, expected, 'response matches expected')
+})
 
-    it('echoUrlParams', async function() {
-        let expected: Message = {int_field: 123, string_field: "the string"}
-        let response = await client.echoUrlParams({intUrl: 123, stringUrl: "the string"})
-        expect(response).toStrictEqual(expected);
-    })
-});
+test('echoHeader', async function() {
+  const client = echoClient(config)
+  let expected: Message = {int_field: 123, string_field: "the string"}
+  let response = await client.echoHeader({intHeader: 123, stringHeader: "the string"})
+  assert.equal(response, expected, 'response matches expected')
+})
 
-// describe('client check', function() {
-//     let client = checkClient(config)
-//     it('checkQuery', async function() {
-//         let body: Message = {int_field: 123, string_field: "the string"}
-//         await client.checkQuery({
-//             pString: "the string",
-//             pStringArray: ["string 1", "string 2"],
-//             pDate: "2021-01-01",
-//             pDateArray: ["2021-01-02"],
-//             pDatetime: new Date("2021-01-02T23:54"),
-//             pInt: 123,
-//             pLong: 123,
-//             pDecimal: 123,
-//             pEnum: Choice.SECOND_CHOICE,
-//             pStringOpt: "some string",
-//             pStringDefaulted: "the string",
-//         })
+test('echoUrlParams', async function() {
+  const client = echoClient(config)
+  let expected: Message = {int_field: 123, string_field: "the string"}
+  let response = await client.echoUrlParams({intUrl: 123, stringUrl: "the string"})
+  assert.equal(response, expected, 'response matches expected')
+})
+
+// test('checkQuery', async function() {
+//   let client = checkClient(config)
+//   let body: Message = {int_field: 123, string_field: "the string"}
+//     await client.checkQuery({
+//         pString: "the string",
+//         pStringArray: ["string 1", "string 2"],
+//         pDate: "2021-01-01",
+//         pDateArray: ["2021-01-02"],
+//         pDatetime: new Date("2021-01-02T23:54"),
+//         pInt: 123,
+//         pLong: 123,
+//         pDecimal: 123,
+//         pEnum: Choice.SECOND_CHOICE,
+//         pStringOpt: "some string",
+//         pStringDefaulted: "the string",
 //     })
-// });
+// })
+
+test.run();
