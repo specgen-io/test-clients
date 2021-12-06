@@ -24,7 +24,8 @@ mod('echoBody', async (context: Context) => {
   let response = await page.evaluate(async (config) => {
     const client = window.echoClient(config)
     let body: Message = {int_field: 123, string_field: "the string"}
-    return await client.echoBody({body})
+    const response = await client.echoBody({body})
+    return response
   }, config)
   let expected: Message = {int_field: 123, string_field: "the string"}
   assert.equal(response, expected, 'response matches request')
@@ -34,7 +35,8 @@ mod('echoQuery', async (context: Context) => {
   const { page } = context
   let response = await page.evaluate(async (config) => {
     const client = window.echoClient(config)
-    return await client.echoQuery({intQuery: 123, stringQuery: "the string"})
+    const response = await client.echoQuery({intQuery: 123, stringQuery: "the string"})
+    return response
   }, config)
   let expected: Message = {int_field: 123, string_field: "the string"}
   assert.equal(response, expected, 'response matches expected')
@@ -44,7 +46,8 @@ mod('echoHeader', async context => {
   const { page } = context
   let response = await page.evaluate(async (config) => {
     const client = window.echoClient(config)
-    return await client.echoHeader({intHeader: 123, stringHeader: "the string"})
+    const response = await client.echoHeader({intHeader: 123, stringHeader: "the string"})
+    return response
   }, config)
   let expected: Message = {int_field: 123, string_field: "the string"}
   assert.equal(response, expected, 'response matches expected')
@@ -54,7 +57,8 @@ mod('echoUrlParams', async context => {
   const { page } = context
   let response = await page.evaluate(async (config) => {
     const client = window.echoClient(config)
-    return await client.echoUrlParams({intUrl: 123, stringUrl: "the string"})
+    const response = await client.echoUrlParams({intUrl: 123, stringUrl: "the string"})
+    return response
   }, config)
   let expected: Message = {int_field: 123, string_field: "the string"}
   assert.equal(response, expected, 'response matches expected')
