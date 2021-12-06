@@ -4,6 +4,15 @@ require "test_service_client"
 
 module TestService
   class ClientTests < Test::Unit::TestCase
+    def test_echo_body_string
+      request_body = "some text"
+      client = EchoClient.new(URI(ENV["SERVICE_URL"]))
+      response = client.echo_body_string(body: request_body)
+      assert_true response.respond_to? :ok
+      assert_true response.ok?
+      assert_equal request_body, response.ok
+    end
+
     def test_echo_body
       request_body = Message.new(int_field: 123, string_field: "the string")
       client = EchoClient.new(URI(ENV["SERVICE_URL"]))
