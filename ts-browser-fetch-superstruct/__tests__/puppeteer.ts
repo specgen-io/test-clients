@@ -10,8 +10,8 @@ export async function setup(context: Context) {
 
 // Close everything on suite completion
 export async function reset(context: Context) {
-	await context.page.close();
-	await context.browser.close();
+	await context.page?.close();
+	await context.browser?.close();
 }
 
 // Navigate to homepage
