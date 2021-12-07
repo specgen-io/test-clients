@@ -21,6 +21,18 @@ mod.before(puppeteer.setup);
 mod.before.each(puppeteer.homepage);
 mod.after(puppeteer.reset);
 
+mod('echoBodyString', async (context: Context) => {
+  const { page } = context
+  let response = await page.evaluate(async (config) => {
+    let body: string = "some text"
+    const client = window.echoClient(config)
+    let response = await client.echoBodyString({body})
+    assert.equal(response, body, 'response matches request')
+  }, config)
+  let expected: string = "some text"
+  assert.equal(response, expected, 'response matches request')
+})
+
 mod('echoBody', async (context: Context) => {
   const { page } = context
   let response = await page.evaluate(async (config) => {

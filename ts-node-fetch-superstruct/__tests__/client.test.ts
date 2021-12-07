@@ -7,6 +7,13 @@ import {client as checkClient} from '../test-service/check'
 
 const config = {baseURL: process.env.SERVICE_URL!}
 
+test('echoBodyString', async function() {
+  let body: string = "some text"
+  const client = echoClient(config)
+  let response = await client.echoBodyString({body})
+  assert.equal(response, body, 'response matches request')
+})
+
 test('echoBody', async function() {
   const client = echoClient(config)
   let body: Message = {int_field: 123, string_field: "the string"}
@@ -36,22 +43,29 @@ test('echoUrlParams', async function() {
   assert.equal(response, expected, 'response matches expected')
 })
 
+test('checkEmpty', async function() {
+  let client = checkClient(config)
+  let response = await client.checkEmpty()
+  assert.is(response, undefined, 'response on check empty is void')
+})
+
 test('checkQuery', async function() {
   let client = checkClient(config)
   let body: Message = {int_field: 123, string_field: "the string"}
-    await client.checkQuery({
-        pString: "the string",
-        pStringArray: ["string 1", "string 2"],
-        pDate: "2021-01-01",
-        pDateArray: ["2021-01-02"],
-        pDatetime: new Date("2021-01-02T23:54"),
-        pInt: 123,
-        pLong: 123,
-        pDecimal: 123,
-        pEnum: Choice.SECOND_CHOICE,
-        pStringOpt: "some string",
-        pStringDefaulted: "the string",
-    })
+  let response = await client.checkQuery({
+      pString: "the string",
+      pStringArray: ["string 1", "string 2"],
+      pDate: "2021-01-01",
+      pDateArray: ["2021-01-02"],
+      pDatetime: new Date("2021-01-02T23:54"),
+      pInt: 123,
+      pLong: 123,
+      pDecimal: 123,
+      pEnum: Choice.SECOND_CHOICE,
+      pStringOpt: "some string",
+      pStringDefaulted: "the string",
+  })
+  assert.is(response, undefined, 'response on check query is void')
 })
 
 test.run();
