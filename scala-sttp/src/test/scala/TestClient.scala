@@ -11,6 +11,15 @@ class EchoClientSpec extends FlatSpec {
   implicit val httpBackend = AkkaHttpBackend()
   import testservice.client.IEchoClient._
 
+  "echoBodyString" should "return body with same text" in {
+    val client = new EchoClient(Util.service_url)
+    val body = "some text"
+    val responseFuture = client.echoBodyString(body)
+    val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
+    val expected = EchoBodyStringResponse.Ok(body)
+    assert(actual == expected)
+  }
+
   "echoBody" should "return body with same members values" in {
     val client = new EchoClient(Util.service_url)
     val body = Message(intField = 123, stringField = "some string")

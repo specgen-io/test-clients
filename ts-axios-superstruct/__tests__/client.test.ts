@@ -7,6 +7,12 @@ const axiosInstance = axios.create({baseURL: process.env.SERVICE_URL!, timeout: 
 
 describe('client echo', function() {
     let client = echoClient(axiosInstance)
+    it('echoBodyString', async function() {
+        let body: string = "some text"
+        let response = await client.echoBodyString({body})
+        expect(response).toStrictEqual(body);
+    })
+
     it('echoBody', async function() {
         let body: Message = {int_field: 123, string_field: "the string"}
         let response = await client.echoBody({body})

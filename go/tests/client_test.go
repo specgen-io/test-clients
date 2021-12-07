@@ -13,6 +13,15 @@ import (
 
 var service_url = "http://localhost:8081"
 
+func Test_Echo_Body_String(t *testing.T) {
+	client := echo.NewClient(service_url)
+	expectedMessage := "TWFueSBoYW5kcyBtYWtlIGxpZ2h0IHdvcmsu"
+	response, err := client.EchoBodyString(expectedMessage)
+	assert.NilError(t, err)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, *response)
+}
+
 func Test_Echo_Body(t *testing.T) {
 	client := echo.NewClient(service_url)
 	expectedMessage := &models.Message{123, "the string"}
