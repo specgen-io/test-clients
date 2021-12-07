@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.1.972
+    default: 2.1.974
 
   specgen-version-major:
     type: string
@@ -198,7 +198,7 @@ jobs:
       - store_test_results:
           path: ./ts-axios-superstruct/test-results
 
-  ts-fetch-superstruct:
+  ts-node-fetch-superstruct:
     environment:
       SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
     working_directory: ~/specgen-tests
@@ -217,15 +217,15 @@ jobs:
       - run:
           name: Setup npm
           command: |
-            cd ./ts-fetch-superstruct
+            cd ./ts-node-fetch-superstruct
             npm install @specgen.io/specgen.io@$SPECGEN_VERSION --save-dev
       - restore_cache:
           keys:
-            - cache-{{ checksum "./ts-fetch-superstruct/package.json" }}
+            - cache-{{ checksum "./ts-node-fetch-superstruct/package.json" }}
       - run:
           name: Test fetch client
           command: |
-            cd ./ts-fetch-superstruct
+            cd ./ts-node-fetch-superstruct
             npm install
             npm run specgen
             export SERVICE_URL=http://localhost:8081
@@ -233,11 +233,11 @@ jobs:
             export JEST_JUNIT_OUTPUT_DIR=./test-results
             npm run test
       - save_cache:
-          key: cache-{{ checksum "./ts-fetch-superstruct/package.json" }}
+          key: cache-{{ checksum "./ts-node-fetch-superstruct/package.json" }}
           paths:
-            - ~/specgen-tests/ts-fetch-superstruct/node_modules            
+            - ~/specgen-tests/ts-node-fetch-superstruct/node_modules            
       - store_test_results:
-          path: ./ts-fetch-superstruct/test-results
+          path: ./ts-node-fetch-superstruct/test-results
 
   ts-browser-fetch-superstruct:
     environment:
@@ -396,7 +396,7 @@ workflows:
           context: specgen
           requires:
             - test-service
-      - ts-fetch-superstruct:
+      - ts-node-fetch-superstruct:
           context: specgen
           requires:
             - test-service
