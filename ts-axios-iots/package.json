@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "specgen": "specgen client-ts-axios --validation io-ts --spec-file ./../spec.yaml --generate-path ./test-service",
+    "specgen": "specgen client-ts --client axios --validation io-ts --spec-file ./../spec.yaml --generate-path ./test-service",
     "test": "jest",
     "coverage": "jest --coverage"
   },
