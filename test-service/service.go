@@ -1,12 +1,12 @@
-//go:generate specgen service-go --spec-file ./../spec.yaml --module-name test-service --generate-path ./spec --swagger-path docs/swagger.yaml
+//go:generate specgen service-go --spec-file ./../spec.yaml --module-name test-service --generate-path ./spec --services-path ./services --swagger-path docs/swagger.yaml
 
 package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/husobee/vestigo"
-	"log"
+	"github.com/shopspring/decimal"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"test-service/services"
 	"test-service/services/v2"
@@ -17,9 +17,9 @@ func main() {
 	port := flag.String("port", "8081", "port number")
 	flag.Parse()
 
-	router := vestigo.NewRouter()
+	decimal.MarshalJSONWithoutQuotes = true
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(200) })
+	router := vestigo.NewRouter()
 
 	router.SetGlobalCors(&vestigo.CorsAccessControl{
 		AllowOrigin: []string{"*", "*"},
@@ -33,6 +33,6 @@ func main() {
 
 	router.Get("/docs/*", http.StripPrefix("/docs/", http.FileServer(http.Dir("docs"))).ServeHTTP)
 
-	fmt.Println("Starting service on port: " + *port)
+	log.Infof("Starting service on port: %s", *port)
 	log.Fatal(http.ListenAndServe(":"+*port, router))
 }
