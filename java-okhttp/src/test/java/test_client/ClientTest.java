@@ -35,8 +35,8 @@ public class ClientTest {
 	public void echoBody_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		Message request = new Message(123, "the string");
-		Message response = client.echoBody(request);
+		var request = new Message(123, "the string");
+		var response = client.echoBody(request);
 
 		assertEquals(request, response);
 	}
@@ -52,8 +52,24 @@ public class ClientTest {
 	public void echoQuery_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		Message request = new Message(123, "the string");
-		Message response = client.echoQuery(123, "the string");
+		int intQuery = 123;
+		var longQuery = 12345;
+		float floatQuery = 1.23f;
+		double doubleQuery = 12.345;
+		BigDecimal decimalQuery = new BigDecimal("12345");
+		boolean boolQuery = true;
+		String stringQuery = "the value";
+		String stringOptQuery = "the value";
+		String stringDefaultedQuery = "value";
+		String[] stringArrayQuery = new String[]{"the str1", "the str2"};
+		UUID uuidQuery = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDate dateQuery = LocalDate.parse("2020-01-01");
+		LocalDate[] dateArrayQuery = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		LocalDateTime datetimeQuery = LocalDateTime.parse("2019-11-30T17:45:55");
+		Choice enumQuery = Choice.SECOND_CHOICE;
+
+		var request = new Parameters(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery);
+		var response = client.echoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery);
 
 		assertEquals(request, response);
 	}
@@ -62,15 +78,48 @@ public class ClientTest {
 	public void echoQuery_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		assertDoesNotThrow(() -> client.echoQuery(123, "the string"));
+		int intQuery = 123;
+		var longQuery = 12345;
+		float floatQuery = 1.23f;
+		double doubleQuery = 12.345;
+		BigDecimal decimalQuery = new BigDecimal("12345");
+		boolean boolQuery = true;
+		String stringQuery = "the value";
+		String stringOptQuery = "the value";
+		String stringDefaultedQuery = "value";
+		String[] stringArrayQuery = new String[]{"the str1", "the str2"};
+		UUID uuidQuery = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDate dateQuery = LocalDate.parse("2020-01-01");
+		LocalDate[] dateArrayQuery = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		LocalDateTime datetimeQuery = LocalDateTime.parse("2019-11-30T17:45:55");
+		Choice enumQuery = Choice.SECOND_CHOICE;
+
+		assertDoesNotThrow(() -> client.echoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery));
 	}
+
 
 	@Test
 	public void echoHeader_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		Message request = new Message(123, "the string");
-		Message response = client.echoHeader(123, "the string");
+		int intHeader = 123;
+		var longHeader = 12345;
+		float floatHeader = 1.23f;
+		double doubleHeader = 12.345;
+		BigDecimal decimalHeader = new BigDecimal("12345");
+		boolean boolHeader = true;
+		String stringHeader = "the value";
+		String stringOptHeader = "the value";
+		String stringDefaultedHeader = "value";
+		String[] stringArrayHeader = new String[]{"the str1", "the str2"};
+		UUID uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDate dateHeader = LocalDate.parse("2020-01-01");
+		LocalDate[] dateArrayHeader = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		LocalDateTime datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55");
+		Choice enumHeader = Choice.SECOND_CHOICE;
+
+		var request = new Parameters(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader);
+		var response = client.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader);
 
 		assertEquals(request, response);
 	}
@@ -79,15 +128,43 @@ public class ClientTest {
 	public void echoHeader_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		assertDoesNotThrow(() -> client.echoHeader(123, "the string"));
+		int intHeader = 123;
+		var longHeader = 12345;
+		float floatHeader = 1.23f;
+		double doubleHeader = 12.345;
+		BigDecimal decimalHeader = new BigDecimal("12345");
+		boolean boolHeader = true;
+		String stringHeader = "the value";
+		String stringOptHeader = "the value";
+		String stringDefaultedHeader = "value";
+		String[] stringArrayHeader = new String[]{"the str1", "the str2"};
+		UUID uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDate dateHeader = LocalDate.parse("2020-01-01");
+		LocalDate[] dateArrayHeader = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		LocalDateTime datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55");
+		Choice enumHeader = Choice.SECOND_CHOICE;
+
+		assertDoesNotThrow(() -> client.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader));
 	}
 
 	@Test
 	public void echoUrlParams_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		Message request = new Message(123, "the string");
-		Message response = client.echoUrlParams(123, "the string");
+		int intUrl = 123;
+		var longUrl = 12345;
+		float floatUrl = 1.23f;
+		double doubleUrl = 12.345;
+		BigDecimal decimalUrl = new BigDecimal("12345");
+		boolean boolUrl = true;
+		String stringUrl = "the value";
+		UUID uuidUrl = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDate dateUrl = LocalDate.parse("2020-01-01");
+		LocalDateTime datetimeUrl = LocalDateTime.parse("2019-11-30T17:45:55");
+		Choice enumUrl = Choice.SECOND_CHOICE;
+
+		var request = new UrlParameters(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl);
+		var response = client.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl);
 
 		assertEquals(request, response);
 	}
@@ -96,7 +173,19 @@ public class ClientTest {
 	public void echoUrlParams_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		assertDoesNotThrow(() -> client.echoUrlParams(123, "the string"));
+		int intUrl = 123;
+		var longUrl = 12345;
+		float floatUrl = 1.23f;
+		double doubleUrl = 12.345;
+		BigDecimal decimalUrl = new BigDecimal("12345");
+		boolean boolUrl = true;
+		String stringUrl = "the value";
+		UUID uuidUrl = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDate dateUrl = LocalDate.parse("2020-01-01");
+		LocalDateTime datetimeUrl = LocalDateTime.parse("2019-11-30T17:45:55");
+		Choice enumUrl = Choice.SECOND_CHOICE;
+
+		assertDoesNotThrow(() -> client.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl));
 	}
 
 	@Test
@@ -104,41 +193,6 @@ public class ClientTest {
 		CheckClient client = new CheckClient(BASE_URL);
 
 		assertDoesNotThrow(client::checkEmpty);
-	}
-
-	@Test
-	public void checkQuery_doesntThrowException() {
-		CheckClient client = new CheckClient(BASE_URL);
-
-		String pString = "the string 1";
-		String pStringOpt = "the string 2";
-		String[] pStringArray = new String[]{"str1", "str2"};
-		LocalDate pDate = LocalDate.parse("2020-01-01");
-		LocalDate[] pDateArray = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
-		LocalDateTime pDatetime = LocalDateTime.parse("2019-11-30T17:45:55");
-		int pInt = 123;
-		long pLong = 1234;
-		BigDecimal pDecimal = new BigDecimal("1.23");
-		Choice pEnum = Choice.SECOND_CHOICE;
-		String pStringDefaulted = "value";
-
-		assertDoesNotThrow(() -> client.checkQuery(pString, pStringOpt, pStringArray, pDate, pDateArray, pDatetime, pInt, pLong, pDecimal, pEnum, pStringDefaulted));
-	}
-
-	@Test
-	public void checkUrlParams_doesntThrowException() {
-		CheckClient client = new CheckClient(BASE_URL);
-
-		long intUrl = 1234;
-		String stringUrl = "the string 1";
-		float floatUrl = 1.23f;
-		boolean boolUrl = true;
-		UUID uuidUrl = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
-		BigDecimal decimalUrl = new BigDecimal("1.23");
-		LocalDate dateUrl = LocalDate.parse("2020-01-01");
-		Choice enumUrl = Choice.SECOND_CHOICE;
-
-		assertDoesNotThrow(() -> client.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl));
 	}
 
 	@Test
