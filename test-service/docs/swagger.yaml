@@ -281,8 +281,8 @@ paths:
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
-  ? /echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}
-  : get:
+  /echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}:
+    get:
       operationId: echoEchoUrlParams
       tags:
         - echo
