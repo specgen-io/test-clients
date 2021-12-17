@@ -34,26 +34,26 @@ class EchoClientSpec extends FlatSpec {
     val responseFuture = client.echoQuery(
       123,
       123.toLong,
-      1.23,
+      1.23f,
       12.345,
       BigDecimal("12345"),
       true,
       "the string",
       Some("the string"),
-      "value",
       List("string 1", "string 2"),
       java.util.UUID.fromString("123e4567-e89b-12d3-a456-426655440000"),
       java.time.LocalDate.parse("2021-01-01"),
       List(java.time.LocalDate.parse("2021-01-02")),
       java.time.LocalDateTime.parse("2021-01-02T23:54"),
       Choice.SecondChoice,
+      "value",
     )
 
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
     val expected = EchoQueryResponse.Ok(Parameters(
       intField = 123,
       longField = 12345,
-      floatFied = 1.23,
+      floatFied = 1.23f,
       doubleField = 12.345,
       decimalField = BigDecimal("12345"),
       boolFieid = true,
@@ -75,25 +75,25 @@ class EchoClientSpec extends FlatSpec {
     val responseFuture = client.echoHeader(
       123,
       123.toLong,
-      1.23,
+      1.23f,
       12.345,
       BigDecimal("12345"),
       true,
       "the string",
       Some("the string"),
-      "value",
       List("string 1", "string 2"),
       java.util.UUID.fromString("123e4567-e89b-12d3-a456-426655440000"),
       java.time.LocalDate.parse("2021-01-01"),
       List(java.time.LocalDate.parse("2021-01-02")),
       java.time.LocalDateTime.parse("2021-01-02T23:54"),
       Choice.SecondChoice,
+      "value",
     )
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
     val expected = EchoHeaderResponse.Ok(Parameters(
       intField = 123,
       longField = 12345,
-      floatFied = 1.23,
+      floatFied = 1.23f,
       doubleField = 12.345,
       decimalField = BigDecimal("12345"),
       boolFieid = true,
@@ -115,7 +115,7 @@ class EchoClientSpec extends FlatSpec {
     val responseFuture = client.echoUrlParams(
       123,
       123.toLong,
-      1.23,
+      1.23f,
       12.345,
       BigDecimal("12345"),
       true,
@@ -129,7 +129,7 @@ class EchoClientSpec extends FlatSpec {
     val expected = EchoUrlParamsResponse.Ok(UrlParameters(
       intField = 123,
       longField = 12345,
-      floatFied = 1.23,
+      floatFied = 1.23f,
       doubleField = 12.345,
       decimalField = BigDecimal("12345"),
       boolFieid = true,
