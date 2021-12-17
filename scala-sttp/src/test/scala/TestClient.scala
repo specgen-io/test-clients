@@ -33,7 +33,7 @@ class EchoClientSpec extends FlatSpec {
     val client = new EchoClient(Util.service_url)
     val responseFuture = client.echoQuery(
       123,
-      123.toLong,
+      12345.toLong,
       1.23f,
       12.345,
       BigDecimal("12345"),
@@ -52,7 +52,7 @@ class EchoClientSpec extends FlatSpec {
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
     val expected = EchoQueryResponse.Ok(Parameters(
       intField = 123,
-      longField = 12345,
+      longField = 12345.toLong,
       floatField = 1.23f,
       doubleField = 12.345,
       decimalField = BigDecimal("12345"),
@@ -74,7 +74,7 @@ class EchoClientSpec extends FlatSpec {
     val client = new EchoClient(Util.service_url)
     val responseFuture = client.echoHeader(
       123,
-      123.toLong,
+      12345.toLong,
       1.23f,
       12.345,
       BigDecimal("12345"),
@@ -92,7 +92,7 @@ class EchoClientSpec extends FlatSpec {
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
     val expected = EchoHeaderResponse.Ok(Parameters(
       intField = 123,
-      longField = 12345,
+      longField = 12345.toLong,
       floatField = 1.23f,
       doubleField = 12.345,
       decimalField = BigDecimal("12345"),
@@ -114,7 +114,7 @@ class EchoClientSpec extends FlatSpec {
     val client = new EchoClient(Util.service_url)
     val responseFuture = client.echoUrlParams(
       123,
-      123.toLong,
+      12345.toLong,
       1.23f,
       12.345,
       BigDecimal("12345"),
@@ -128,7 +128,7 @@ class EchoClientSpec extends FlatSpec {
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
     val expected = EchoUrlParamsResponse.Ok(UrlParameters(
       intField = 123,
-      longField = 12345,
+      longField = 12345.toLong,
       floatField = 1.23f,
       doubleField = 12.345,
       decimalField = BigDecimal("12345"),
