@@ -113,7 +113,33 @@ func Test_Echo_Url_Params(t *testing.T) {
 	assert.DeepEqual(t, expectedMessage, response)
 }
 
-func Test_Check_Response_Forbidden(t *testing.T) {
+func Test_Echo_Everything(t *testing.T) {
+	client := echo.NewClient(serviceUrl)
+
+	body := &models.Message{123, "the string"}
+	var floatQuery float32 = 1.23
+	boolQuery := true
+	uuidHeader, _ := uuid.Parse("123e4567-e89b-12d3-a456-426655440000")
+	datetimeHeader, _ := civil.ParseDateTime("2019-11-30T17:45:55")
+	dateUrl, _ := civil.ParseDate("2020-01-01")
+	decimalUrl, _ := decimal.NewFromString("12345")
+
+	expectedMessage := &echo.EchoEverythingResponse{Ok: &models.Everything{*body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl}}
+	response, err := client.EchoEverything(body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl)
+	assert.NilError(t, err)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
+}
+
+func Test_Check_Empty(t *testing.T) {
+	client := check.NewClient(serviceUrl)
+
+	err := client.CheckEmpty()
+
+	assert.NilError(t, err)
+}
+
+func Test_Check_Forbidden(t *testing.T) {
 	client := check.NewClient(serviceUrl)
 
 	response, err := client.CheckForbidden()
