@@ -10,6 +10,7 @@ import java.time.*;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class ClientTest {
 	public static final String BASE_URL = "http://localhost:8081";
@@ -186,6 +187,39 @@ public class ClientTest {
 		Choice enumUrl = Choice.SECOND_CHOICE;
 
 		assertDoesNotThrow(() -> client.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl));
+	}
+
+	@Test
+	public void echoEverything_responseIsEqualToRequest() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		Message body = new Message(123, "the string");
+		float floatQuery = 1.23f;
+		boolean boolQuery = true;
+		UUID uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDateTime datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55");
+		LocalDate dateUrl = LocalDate.parse("2020-01-01");
+		BigDecimal decimalUrl = new BigDecimal("12345");
+
+		var request = new EchoEverythingResponse.Ok(new Everything(body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl));
+		var response = client.echoEverything(body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl);
+
+		assertThat(request).usingRecursiveComparison().isEqualTo(response);
+	}
+
+	@Test
+	public void echoEverything_doesntThrowException() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		Message body = new Message(123, "the string");
+		float floatQuery = 1.23f;
+		boolean boolQuery = true;
+		UUID uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
+		LocalDateTime datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55");
+		LocalDate dateUrl = LocalDate.parse("2020-01-01");
+		BigDecimal decimalUrl = new BigDecimal("12345");
+
+		assertDoesNotThrow(() -> client.echoEverything(body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl));
 	}
 
 	@Test
