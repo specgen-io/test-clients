@@ -45,14 +45,14 @@ describe('client echo', function() {
             decimalQuery: 12345,
             boolQuery: true,
             stringQuery: "the value",
-            stringOptQuery: "the value",
-            stringDefaultedQuery: "value",
             stringArrayQuery: ["the str1", "the str2"],
             uuidQuery: "123e4567-e89b-12d3-a456-426655440000",
             dateQuery: "2021-01-01",
             dateArrayQuery: ["2021-01-02"],
             datetimeQuery: new Date("2021-01-02T23:54"),
             enumQuery: Choice.SECOND_CHOICE,
+            stringOptQuery: "the value",
+            stringDefaultedQuery: "value",
         })
         expect(response).toStrictEqual(expected);
     })
@@ -83,14 +83,14 @@ describe('client echo', function() {
             decimalHeader: 12345,
             boolHeader: true,
             stringHeader: "the value",
-            stringOptHeader: "the value",
-            stringDefaultedHeader: "value",
             stringArrayHeader: ["the str1", "the str2"],
             uuidHeader: "123e4567-e89b-12d3-a456-426655440000",
             dateHeader: "2021-01-01",
             dateArrayHeader: ["2021-01-02"],
             datetimeHeader: new Date("2021-01-02T23:54"),
             enumHeader: Choice.SECOND_CHOICE,
+            stringOptHeader: "the value",
+            stringDefaultedHeader: "value",
         })
         expect(response).toStrictEqual(expected);
     })
