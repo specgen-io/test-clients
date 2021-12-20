@@ -1,7 +1,7 @@
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 
-import {Message, Choice} from '../test-service/models'
+import {Message, Choice, Parameters, UrlParameters} from '../test-service/models'
 import {client as echoClient} from '../test-service/echo'
 import {client as checkClient} from '../test-service/check'
 
