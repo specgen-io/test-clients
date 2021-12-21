@@ -1,6 +1,8 @@
 package v2
 
-import "test-service/spec/v2/models"
+import (
+	"test-service/spec/v2/models"
+)
 
 type EchoService struct{}
 
