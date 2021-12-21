@@ -1,7 +1,7 @@
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 
-import {Message, Choice} from '../test-service/models'
+import {Message, Choice, Parameters, UrlParameters} from '../test-service/models'
 import {client as echoClient} from '../test-service/echo'
 import {client as checkClient} from '../test-service/check'
 
@@ -24,22 +24,110 @@ test('echoBody', async function() {
 
 test('echoQuery', async function() {
   const client = echoClient(config)
-  let expected: Message = {int_field: 123, string_field: "the string"}
-  let response = await client.echoQuery({intQuery: 123, stringQuery: "the string"})
+  let expected: Parameters = {
+    int_field: 123, 
+    long_field: 12345,
+    float_field: 1.23,
+    double_field: 12.345,
+    decimal_field: 12345,
+    bool_field: true,
+    string_field: "the value",
+    string_opt_field: "the value",
+    string_defaulted_field: "value",
+    string_array_field: ["the str1", "the str2"],
+    uuid_field: "123e4567-e89b-12d3-a456-426655440000",
+    date_field: "2021-01-01",
+    date_array_field: ["2021-01-02"],
+    datetime_field: new Date("2021-01-02T23:54"),
+    enum_field: Choice.SECOND_CHOICE,
+  }
+  let response = await client.echoQuery({
+    intQuery: 123, 
+    longQuery: 12345,
+    floatQuery: 1.23,
+    doubleQuery: 12.345,
+    decimalQuery: 12345,
+    boolQuery: true,
+    stringQuery: "the value",
+    stringOptQuery: "the value",
+    stringDefaultedQuery: "value",
+    stringArrayQuery: ["the str1", "the str2"],
+    uuidQuery: "123e4567-e89b-12d3-a456-426655440000",
+    dateQuery: "2021-01-01",
+    dateArrayQuery: ["2021-01-02"],
+    datetimeQuery: new Date("2021-01-02T23:54"),
+    enumQuery: Choice.SECOND_CHOICE,
+  })
   assert.equal(response, expected, 'response matches expected')
 })
 
 test('echoHeader', async function() {
   const client = echoClient(config)
-  let expected: Message = {int_field: 123, string_field: "the string"}
-  let response = await client.echoHeader({intHeader: 123, stringHeader: "the string"})
+  let expected: Parameters = {
+    int_field: 123, 
+    long_field: 12345,
+    float_field: 1.23,
+    double_field: 12.345,
+    decimal_field: 12345,
+    bool_field: true,
+    string_field: "the value",
+    string_opt_field: "the value",
+    string_defaulted_field: "value",
+    string_array_field: ["the str1", "the str2"],
+    uuid_field: "123e4567-e89b-12d3-a456-426655440000",
+    date_field: "2021-01-01",
+    date_array_field: ["2021-01-02"],
+    datetime_field: new Date("2021-01-02T23:54"),
+    enum_field: Choice.SECOND_CHOICE, 
+  }
+  let response = await client.echoHeader({
+    intHeader: 123, 
+    longHeader: 12345,
+    floatHeader: 1.23,
+    doubleHeader: 12.345,
+    decimalHeader: 12345,
+    boolHeader: true,
+    stringHeader: "the value",
+    stringOptHeader: "the value",
+    stringDefaultedHeader: "value",
+    stringArrayHeader: ["the str1", "the str2"],
+    uuidHeader: "123e4567-e89b-12d3-a456-426655440000",
+    dateHeader: "2021-01-01",
+    dateArrayHeader: ["2021-01-02"],
+    datetimeHeader: new Date("2021-01-02T23:54"),
+    enumHeader: Choice.SECOND_CHOICE,
+  })
   assert.equal(response, expected, 'response matches expected')
 })
 
 test('echoUrlParams', async function() {
   const client = echoClient(config)
-  let expected: Message = {int_field: 123, string_field: "the string"}
-  let response = await client.echoUrlParams({intUrl: 123, stringUrl: "the string"})
+  let expected: UrlParameters = {
+    int_field: 123, 
+    long_field: 12345,
+    float_field: 1.23,
+    double_field: 12.345,
+    decimal_field: 12345,
+    bool_field: true,
+    string_field: "the value",
+    uuid_field: "123e4567-e89b-12d3-a456-426655440000",
+    date_field: "2021-01-01",
+    datetime_field: new Date("2021-01-02T23:54"),
+    enum_field: Choice.SECOND_CHOICE,
+  }
+  let response = await client.echoUrlParams({
+    intUrl: 123, 
+    longUrl: 12345,
+    floatUrl: 1.23,
+    doubleUrl: 12.345,
+    decimalUrl: 12345,
+    boolUrl: true,
+    stringUrl: "the value",
+    uuidUrl: "123e4567-e89b-12d3-a456-426655440000",
+    dateUrl: "2021-01-01",
+    datetimeUrl: new Date("2021-01-02T23:54"),
+    enumUrl: Choice.SECOND_CHOICE,
+  })
   assert.equal(response, expected, 'response matches expected')
 })
 
@@ -47,25 +135,6 @@ test('checkEmpty', async function() {
   let client = checkClient(config)
   let response = await client.checkEmpty()
   assert.is(response, undefined, 'response on check empty is void')
-})
-
-test('checkQuery', async function() {
-  let client = checkClient(config)
-  let body: Message = {int_field: 123, string_field: "the string"}
-  let response = await client.checkQuery({
-      pString: "the string",
-      pStringArray: ["string 1", "string 2"],
-      pDate: "2021-01-01",
-      pDateArray: ["2021-01-02"],
-      pDatetime: new Date("2021-01-02T23:54"),
-      pInt: 123,
-      pLong: 123,
-      pDecimal: 123,
-      pEnum: Choice.SECOND_CHOICE,
-      pStringOpt: "some string",
-      pStringDefaulted: "the string",
-  })
-  assert.is(response, undefined, 'response on check query is void')
 })
 
 test.run();
