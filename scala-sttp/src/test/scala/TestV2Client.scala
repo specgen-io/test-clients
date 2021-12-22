@@ -6,11 +6,11 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import com.softwaremill.sttp.akkahttp.AkkaHttpBackend
 import testservice.client.tests.Util
-import testservice.client.v2.{EchoClient, Message}
+import testservice.client.v2.echo._
+import testservice.client.v2.models._
 
 class EchoClientSpec extends FlatSpec {
   implicit val httpBackend = AkkaHttpBackend()
-  import testservice.client.v2.IEchoClient._
 
   "echoBody" should "return body with same members values" in {
     val client = new EchoClient(Util.service_url)
