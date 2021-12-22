@@ -15,19 +15,17 @@ class EchoClientSpec extends FlatSpec {
 
   "echoBodyString" should "return body with same text" in {
     val client = new EchoClient(Util.service_url)
-    val body = "some text"
-    val responseFuture = client.echoBodyString(body)
+    val expected = "some text"
+    val responseFuture = client.echoBodyString(expected)
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
-    val expected = EchoBodyStringResponse.Ok(body)
     assert(actual == expected)
   }
 
   "echoBody" should "return body with same members values" in {
     val client = new EchoClient(Util.service_url)
-    val body = Message(intField = 123, stringField = "some string")
-    val responseFuture = client.echoBody(body)
+    val expected = Message(intField = 123, stringField = "some string")
+    val responseFuture = client.echoBody(expected)
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
-    val expected = EchoBodyResponse.Ok(body)
     assert(actual == expected)
   }
 
@@ -52,7 +50,7 @@ class EchoClientSpec extends FlatSpec {
     )
 
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
-    val expected = EchoQueryResponse.Ok(Parameters(
+    val expected = Parameters(
       intField = 123,
       longField = 12345.toLong,
       floatField = 1.23f,
@@ -68,7 +66,7 @@ class EchoClientSpec extends FlatSpec {
       dateArrayField = List(java.time.LocalDate.parse("2021-01-02")),
       datetimeField = java.time.LocalDateTime.parse("2021-01-02T23:54"),
       enumField = Choice.SecondChoice,
-    ))
+    )
     assert(actual == expected)
   }
 
@@ -92,7 +90,7 @@ class EchoClientSpec extends FlatSpec {
       "value",
     )
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
-    val expected = EchoHeaderResponse.Ok(Parameters(
+    val expected = Parameters(
       intField = 123,
       longField = 12345.toLong,
       floatField = 1.23f,
@@ -108,7 +106,7 @@ class EchoClientSpec extends FlatSpec {
       dateArrayField = List(java.time.LocalDate.parse("2021-01-02")),
       datetimeField = java.time.LocalDateTime.parse("2021-01-02T23:54"),
       enumField = Choice.SecondChoice,
-    ))
+    )
     assert(actual == expected)
   }
 
@@ -128,7 +126,7 @@ class EchoClientSpec extends FlatSpec {
       Choice.SecondChoice,
     )
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
-    val expected = EchoUrlParamsResponse.Ok(UrlParameters(
+    val expected = UrlParameters(
       intField = 123,
       longField = 12345.toLong,
       floatField = 1.23f,
@@ -140,7 +138,7 @@ class EchoClientSpec extends FlatSpec {
       dateField = java.time.LocalDate.parse("2021-01-01"),
       datetimeField = java.time.LocalDateTime.parse("2021-01-02T23:54"),
       enumField = Choice.SecondChoice,
-    ))
+    )
     assert(actual == expected)
   }
 }
