@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"test-service/spec/echo"
+	"test-service/spec/empty"
 	"test-service/spec/models"
 )
 
@@ -29,5 +30,5 @@ func (service *EchoService) EchoEverything(body *models.Message, floatQuery floa
 	return &echo.EchoEverythingResponse{Ok: &models.Everything{BodyField: *body, FloatQuery: floatQuery, BoolQuery: boolQuery, UuidHeader: uuidHeader, DatetimeHeader: datetimeHeader, DateUrl: dateUrl, DecimalUrl: decimalUrl}}, nil
 }
 func (service *EchoService) SameOperationName() (*echo.SameOperationNameResponse, error) {
-	return &echo.SameOperationNameResponse{Ok: &echo.Empty}, nil
+	return &echo.SameOperationNameResponse{Ok: &empty.Value}, nil
 }
