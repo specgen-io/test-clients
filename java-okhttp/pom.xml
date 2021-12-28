@@ -87,7 +87,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>client-java-okhttp</goal>
+                            <goal>client-java</goal>
                         </goals>
                     </execution>
                 </executions>
