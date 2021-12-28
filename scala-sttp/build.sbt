@@ -4,8 +4,9 @@ scalaVersion := "2.13.2"
 version := "0.0.1"
 
 enablePlugins(SpecgenClient)
-
 specgenSpecFile := file("./../spec.yaml")
+specgenClient := "sttp"
+specgenJsonlib := "circe"
 
 libraryDependencies ++= Seq(
   "io.circe" %% "circe-core" % "0.12.3",
