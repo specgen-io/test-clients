@@ -103,7 +103,10 @@ jobs:
           name: Test Kotlin OkHttp client
           command: |
             cd ./kotlin-okhttp
-            ./gradlew --build-cache --no-daemon --stacktrace test
+            ./gradlew --build-cache --no-daemon --stacktrace test \
+            -Djfrog.user=$JFROG_USER \
+            -Djfrog.pass=$JFROG_PASS \
+            -Dspecgen.version=<<pipeline.parameters.specgen-version>>
       - store_test_results:
           path: ~/specgen-tests/kotlin-okhttp/build/test-results
       - save_cache:
