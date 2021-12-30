@@ -104,7 +104,7 @@ class EchoClient(
 		}
 	}
 
-	fun echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: String?, stringDefaultedQuery: String, stringArrayQuery: List<String>, uuidQuery: UUID, dateQuery: LocalDate, dateArrayQuery: List<LocalDate>, datetimeQuery: LocalDateTime, enumQuery: Choice): Parameters {
+	fun echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: String?, stringDefaultedQuery: String, stringArrayQuery: Array<String>, uuidQuery: UUID, dateQuery: LocalDate, dateArrayQuery: Array<LocalDate>, datetimeQuery: LocalDateTime, enumQuery: Choice): Parameters {
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("echo/query")
 		url.addQueryParameter("int_query", intQuery)
@@ -154,7 +154,7 @@ class EchoClient(
 		}
 	}
 
-	fun echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: String?, stringDefaultedHeader: String, stringArrayHeader: List<String>, uuidHeader: UUID, dateHeader: LocalDate, dateArrayHeader: List<LocalDate>, datetimeHeader: LocalDateTime, enumHeader: Choice): Parameters {
+	fun echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: String?, stringDefaultedHeader: String, stringArrayHeader: Array<String>, uuidHeader: UUID, dateHeader: LocalDate, dateArrayHeader: Array<LocalDate>, datetimeHeader: LocalDateTime, enumHeader: Choice): Parameters {
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("echo/header")
 
