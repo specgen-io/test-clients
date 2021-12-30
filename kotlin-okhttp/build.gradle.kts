@@ -22,7 +22,7 @@ dependencies {
 }
 
 specgen {
-    modelsKotlin {
+    clientKotlin {
         specFile.set(file("../spec.yaml"))
     }
 }
