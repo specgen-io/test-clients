@@ -92,6 +92,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <jsonlib>jackson</jsonlib>
                     <specFile>${project.basedir}/../spec.yaml</specFile>
                     <packageName>test_client</packageName>
                 </configuration>
