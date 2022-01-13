@@ -85,6 +85,34 @@ jobs:
           paths:
             - ~/.m2
 
+  kotlin-okhttp:
+    environment:
+      SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
+    working_directory: ~/specgen-tests
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: cache-{{ checksum "./kotlin-okhttp/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp/settings.gradle.kts" }}
+      - start-service:
+          port: 8081
+      - run:
+          name: Test Kotlin OkHttp client
+          command: |
+            cd ./kotlin-okhttp
+            ./gradlew --build-cache --no-daemon --stacktrace test \
+            -Djfrog.user=$JFROG_USER \
+            -Djfrog.pass=$JFROG_PASS \
+            -Dspecgen.version=<<pipeline.parameters.specgen-version>>
+      - store_test_results:
+          path: ~/specgen-tests/kotlin-okhttp/build/test-results
+      - save_cache:
+          key: cache-{{ checksum "./kotlin-okhttp/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp/settings.gradle.kts" }}
+          paths: [ ~/.gradle ]   
+
   ruby:
     working_directory: ~/specgen-tests
     docker:
@@ -384,6 +412,10 @@ workflows:
           context: specgen
           requires:
             - test-service
+      - kotlin-okhttp:
+          context: specgen
+          requires:
+            - test-service      
       - ruby:
           context: specgen
           requires:
