@@ -1,13 +1,14 @@
-package testservice.client.v2
+package testservice.v2
 
 import org.scalatest.FlatSpec
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import com.softwaremill.sttp.akkahttp.AkkaHttpBackend
-import testservice.client.tests.Util
-import testservice.client.v2.echo._
-import testservice.client.v2.models._
+import util.Util
+
+import testservice.v2.echo._
+import testservice.v2.models._
 
 class EchoClientSpec extends FlatSpec {
   implicit val httpBackend = AkkaHttpBackend()
