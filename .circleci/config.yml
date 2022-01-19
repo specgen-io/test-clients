@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.1.1340
+    default: 2.1.1342
 
   specgen-version-major:
     type: string
@@ -49,8 +49,8 @@ jobs:
             go generate
             mkdir -p ./test-results
             go install github.com/jstemmer/go-junit-report@v0.9.1
-            go test ./... -v
             go test ./... -v 2>&1 | go-junit-report > ./test-results/go-test-report.xml
+            go test ./... -v
       - store_test_results:
           path: ./go/test-results
 
