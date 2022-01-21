@@ -37,7 +37,7 @@ class ClientTest {
         val client = EchoClient(baseUrl)
 
         val request = Message(123, "the string")
-        val response = client.echoBody(request)
+        val response = client.echoBodyJson(request)
 
         assertEquals(request, response)
     }
@@ -47,7 +47,7 @@ class ClientTest {
         val client = EchoClient(baseUrl)
 
         assertDoesNotThrow<Message> {
-            client.echoBody(Message(123, "the string"))
+            client.echoBodyJson(Message(123, "the string"))
         }
     }
 
