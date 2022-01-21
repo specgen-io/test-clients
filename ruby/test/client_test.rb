@@ -13,10 +13,28 @@ module TestService
       assert_equal request_body, response.ok
     end
 
-    def test_echo_body
+    def test_echo_body_model
       request_body = Message.new(int_field: 123, string_field: "the string")
       client = EchoClient.new(URI(ENV["SERVICE_URL"]))
-      response = client.echo_body(body: request_body)
+      response = client.echo_body_model(body: request_body)
+      assert_true response.respond_to? :ok
+      assert_true response.ok?
+      assert_equal request_body, response.ok
+    end
+
+    def test_echo_body_array
+      request_body = ["the str1", "the str2"]
+      client = EchoClient.new(URI(ENV["SERVICE_URL"]))
+      response = client.echo_body_array(body: request_body)
+      assert_true response.respond_to? :ok
+      assert_true response.ok?
+      assert_equal request_body, response.ok
+    end
+
+    def test_echo_body_map
+      request_body = {"one" => "the str1", "two" => "the str2"}
+      client = EchoClient.new(URI(ENV["SERVICE_URL"]))
+      response = client.echo_body_map(body: request_body)
       assert_true response.respond_to? :ok
       assert_true response.ok?
       assert_equal request_body, response.ok
@@ -141,10 +159,10 @@ end
 
 module TestService::V2
   class ClientTests < Test::Unit::TestCase
-    def test_echo_body
+    def test_echo_body_model
       request_body = Message.new(bool_field: true, string_field: "the string")
       client = EchoClient.new(URI(ENV["SERVICE_URL"]))
-      response = client.echo_body(body: request_body)
+      response = client.echo_body_model(body: request_body)
       assert_true response.respond_to? :ok
       assert_true response.ok?
       assert_equal request_body, response.ok

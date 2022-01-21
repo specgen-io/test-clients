@@ -6,6 +6,6 @@ import (
 
 type EchoService struct{}
 
-func (service *EchoService) EchoBody(body *models.Message) (*models.Message, error) {
+func (service *EchoService) EchoBodyModel(body *models.Message) (*models.Message, error) {
 	return body, nil
 }
