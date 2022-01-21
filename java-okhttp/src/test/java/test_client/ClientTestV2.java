@@ -10,7 +10,7 @@ public class ClientTestV2 {
 	public static final String BASE_URL = "http://localhost:8081";
 
 	@Test
-	public void echoBody_responseIsEqualToRequest() {
+	public void echoBodyModel_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
 		Message request = new Message(true, "the string");
@@ -20,7 +20,7 @@ public class ClientTestV2 {
 	}
 
 	@Test
-	public void echoBody_doesntThrowException() {
+	public void echoBodyModel_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
 		assertDoesNotThrow(() -> client.echoBodyModel(new Message(true, "the string")));
