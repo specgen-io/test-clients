@@ -24,11 +24,23 @@ http:
       response:
         ok: string
 
-    echo_body:
-      endpoint: POST /echo/body
+    echo_body_json:
+      endpoint: POST /echo/body_json
       body: Message
       response:
-        ok: Message
+        ok: Message    
+
+    echo_body_array:
+      endpoint: POST /echo/body_array
+      body: string[]
+      response:
+        ok: string[]  
+
+    echo_body_map:
+      endpoint: POST /echo/body_map
+      body: string{}
+      response:
+        ok: string{}         
 
     echo_query:
       endpoint: GET /echo/query
