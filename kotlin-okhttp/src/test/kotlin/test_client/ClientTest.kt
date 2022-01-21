@@ -33,21 +33,21 @@ class ClientTest {
     }
 
     @Test
-    fun echoBodyJson_responseIsEqualToRequest() {
+    fun echoBodyModel_responseIsEqualToRequest() {
         val client = EchoClient(baseUrl)
 
         val request = Message(123, "the string")
-        val response = client.echoBodyJson(request)
+        val response = client.echoBodyModel(request)
 
         assertEquals(request, response)
     }
 
     @Test
-    fun echoBodyJson_doesntThrowException() {
+    fun echoBodyModel_doesntThrowException() {
         val client = EchoClient(baseUrl)
 
         assertDoesNotThrow<Message> {
-            client.echoBodyJson(Message(123, "the string"))
+            client.echoBodyModel(Message(123, "the string"))
         }
     }
 

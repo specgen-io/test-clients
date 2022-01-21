@@ -14,7 +14,7 @@ type EchoService struct{}
 func (service *EchoService) EchoBodyString(body string) (*string, error) {
 	return &body, nil
 }
-func (service *EchoService) EchoBodyJson(body *models.Message) (*models.Message, error) {
+func (service *EchoService) EchoBodyModel(body *models.Message) (*models.Message, error) {
 	return body, nil
 }
 func (service *EchoService) EchoBodyArray(body *[]string) (*[]string, error) {

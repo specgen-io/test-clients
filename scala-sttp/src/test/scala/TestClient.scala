@@ -21,10 +21,10 @@ class EchoClientSpec extends FlatSpec {
     assert(actual == expected)
   }
 
-  "echoBodyJson" should "return body with same members values" in {
+  "echoBodyModel" should "return body with same members values" in {
     val client = new EchoClient(Util.service_url)
     val expected = Message(intField = 123, stringField = "some string")
-    val responseFuture = client.echoBodyJson(expected)
+    val responseFuture = client.echoBodyModel(expected)
     val actual = Await.ready(responseFuture, Duration.Inf).value.get.get
     assert(actual == expected)
   }

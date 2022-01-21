@@ -24,11 +24,11 @@ func Test_Echo_Body_String(t *testing.T) {
 	assert.DeepEqual(t, expectedMessage, *response)
 }
 
-func Test_Echo_Body_Json(t *testing.T) {
+func Test_Echo_Body_Model(t *testing.T) {
 	client := echo.NewClient(serviceUrl)
 
 	expectedMessage := &models.Message{123, "the string"}
-	response, err := client.EchoBodyJson(expectedMessage)
+	response, err := client.EchoBodyModel(expectedMessage)
 
 	assert.NilError(t, err)
 	assert.NilError(t, err, response)

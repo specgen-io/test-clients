@@ -13,9 +13,9 @@ describe('client echo', function() {
         expect(response).toStrictEqual(body);
     })
 
-    it('echoBodyJson', async function() {
+    it('echoBodyModel', async function() {
         let body: Message = {int_field: 123, string_field: "the string"}
-        let response = await client.echoBodyJson({body})
+        let response = await client.echoBodyModel({body})
         expect(response).toStrictEqual(body);
     })
 
@@ -30,7 +30,7 @@ describe('client echo', function() {
         let response = await client.echoBodyMap({body})
         expect(response).toStrictEqual(body);
     })
-    
+
     it('echoQuery', async function() {
         let expected: Parameters = {
             int_field: 123, 

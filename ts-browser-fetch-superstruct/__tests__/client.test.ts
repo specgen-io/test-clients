@@ -33,12 +33,12 @@ mod('echoBodyString', async (context: Context) => {
   assert.equal(response, expected, 'response matches request')
 })
 
-mod('echoBodyJson', async (context: Context) => {
+mod('echoBodyModel', async (context: Context) => {
   const { page } = context
   let response = await page.evaluate(async (config) => {
     const client = window.echoClient(config)
     let body: Message = {int_field: 123, string_field: "the string"}
-    const response = await client.echoBodyJson({body})
+    const response = await client.echoBodyModel({body})
     return response
   }, config)
   let expected: Message = {int_field: 123, string_field: "the string"}

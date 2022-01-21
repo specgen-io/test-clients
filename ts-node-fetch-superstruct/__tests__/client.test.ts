@@ -14,10 +14,10 @@ test('echoBodyString', async function() {
   assert.equal(response, body, 'response matches request')
 })
 
-test('echoBodyJson', async function() {
+test('echoBodyModel', async function() {
   const client = echoClient(config)
   let body: Message = {int_field: 123, string_field: "the string"}
-  let response = await client.echoBodyJson({body})
+  let response = await client.echoBodyModel({body})
   assert.equal(response, body, 'response matches request')
 })
 

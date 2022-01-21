@@ -13,7 +13,7 @@ class ClientV2Test {
         val client = EchoClient(baseUrl)
 
         val request = Message(true, "the string")
-        val response: Message = client.echoBody(request)
+        val response: Message = client.echoBodyModel(request)
 
         assertEquals(request, response)
     }
@@ -23,7 +23,7 @@ class ClientV2Test {
         val client = EchoClient(baseUrl)
 
         assertDoesNotThrow {
-            client.echoBody(Message(true, "the string"))
+            client.echoBodyModel(Message(true, "the string"))
         }
     }
 }

@@ -35,20 +35,20 @@ public class ClientTest {
 	}
 
 	@Test
-	public void echoBodyJson_responseIsEqualToRequest() {
+	public void echoBodyModel_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
 		var request = new Message(123, "the string");
-		var response = client.echoBodyJson(request);
+		var response = client.echoBodyModel(request);
 
 		assertEquals(request, response);
 	}
 
 	@Test
-	public void echoBodyJson_doesntThrowException() {
+	public void echoBodyModel_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		assertDoesNotThrow(() -> client.echoBodyJson(new Message(123, "the string")));
+		assertDoesNotThrow(() -> client.echoBodyModel(new Message(123, "the string")));
 	}
 
 	@Test

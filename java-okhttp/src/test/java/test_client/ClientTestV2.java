@@ -14,7 +14,7 @@ public class ClientTestV2 {
 		EchoClient client = new EchoClient(BASE_URL);
 
 		Message request = new Message(true, "the string");
-		Message response = client.echoBody(request);
+		Message response = client.echoBodyModel(request);
 
 		assertEquals(request, response);
 	}
@@ -23,7 +23,7 @@ public class ClientTestV2 {
 	public void echoBody_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		assertDoesNotThrow(() -> client.echoBody(new Message(true, "the string")));
+		assertDoesNotThrow(() -> client.echoBodyModel(new Message(true, "the string")));
 	}
 }
 
