@@ -24,11 +24,33 @@ func Test_Echo_Body_String(t *testing.T) {
 	assert.DeepEqual(t, expectedMessage, *response)
 }
 
-func Test_Echo_Body(t *testing.T) {
+func Test_Echo_Body_Model(t *testing.T) {
 	client := echo.NewClient(serviceUrl)
 
 	expectedMessage := &models.Message{123, "the string"}
-	response, err := client.EchoBody(&models.Message{123, "the string"})
+	response, err := client.EchoBodyModel(expectedMessage)
+
+	assert.NilError(t, err)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
+}
+
+func Test_Echo_Body_Array(t *testing.T) {
+	client := echo.NewClient(serviceUrl)
+
+	expectedMessage := &[]string{"the str1", "the str2"}
+	response, err := client.EchoBodyArray(expectedMessage)
+
+	assert.NilError(t, err)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
+}
+
+func Test_Echo_Body_Map(t *testing.T) {
+	client := echo.NewClient(serviceUrl)
+
+	expectedMessage := &map[string]string{"string_field": "the value", "string_field_2": "the value_2"}
+	response, err := client.EchoBodyMap(expectedMessage)
 
 	assert.NilError(t, err)
 	assert.NilError(t, err, response)

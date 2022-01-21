@@ -7,6 +7,8 @@ import test_client.models.*;
 
 import java.math.BigDecimal;
 import java.time.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,20 +35,60 @@ public class ClientTest {
 	}
 
 	@Test
-	public void echoBody_responseIsEqualToRequest() {
+	public void echoBodyModel_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
 		var request = new Message(123, "the string");
-		var response = client.echoBody(request);
+		var response = client.echoBodyModel(request);
 
 		assertEquals(request, response);
 	}
 
 	@Test
-	public void echoBody_doesntThrowException() {
+	public void echoBodyModel_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		assertDoesNotThrow(() -> client.echoBody(new Message(123, "the string")));
+		assertDoesNotThrow(() -> client.echoBodyModel(new Message(123, "the string")));
+	}
+
+	@Test
+	public void echoBodyArray_responseIsEqualToRequest() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		var request = new String[]{"the str1", "the str2"};
+		var response = client.echoBodyArray(request);
+
+		assertArrayEquals(request, response);
+	}
+
+	@Test
+	public void echoBodyArray_doesntThrowException() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		assertDoesNotThrow(() -> client.echoBodyArray(new String[]{"the str1", "the str2"}));
+	}
+
+	@Test
+	public void echoBodyMap_responseIsEqualToRequest() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		var request = new HashMap<String, String>() {{
+			put("string_field", "the value");
+			put("string_field_2", "the value_2");
+		}};
+		var response = client.echoBodyMap(request);
+
+		assertEquals(request, response);
+	}
+
+	@Test
+	public void echoBodyMap_doesntThrowException() {
+		EchoClient client = new EchoClient(BASE_URL);
+
+		assertDoesNotThrow(() -> client.echoBodyMap(new HashMap<>() {{
+			put("string_field", "the value");
+			put("string_field_2", "the value_2");
+		}}));
 	}
 
 	@Test

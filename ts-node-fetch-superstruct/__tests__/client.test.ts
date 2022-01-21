@@ -14,13 +14,26 @@ test('echoBodyString', async function() {
   assert.equal(response, body, 'response matches request')
 })
 
-test('echoBody', async function() {
+test('echoBodyModel', async function() {
   const client = echoClient(config)
   let body: Message = {int_field: 123, string_field: "the string"}
-  let response = await client.echoBody({body})
+  let response = await client.echoBodyModel({body})
   assert.equal(response, body, 'response matches request')
 })
 
+test('echoBodyArray', async function() {
+  const client = echoClient(config)
+  let body: string[] = ["the str1", "the str1"]
+  let response = await client.echoBodyArray({body})
+  assert.equal(response, body, 'response matches request')
+})
+
+test('echoBodyMap', async function() {
+  const client = echoClient(config)
+  let body: Record<string, string> = {"one": "the str1", "two": "the str1"}
+  let response = await client.echoBodyMap({body})
+  assert.equal(response, body, 'response matches request')
+})
 
 test('echoQuery', async function() {
   const client = echoClient(config)

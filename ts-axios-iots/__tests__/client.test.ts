@@ -13,9 +13,21 @@ describe('client echo', function() {
         expect(response).toStrictEqual(body);
     })
 
-    it('echoBody', async function() {
+    it('echoBodyModel', async function() {
         let body: Message = {int_field: 123, string_field: "the string"}
-        let response = await client.echoBody({body})
+        let response = await client.echoBodyModel({body})
+        expect(response).toStrictEqual(body);
+    })
+
+    it('echoBodyArray', async function() {
+        let body: string[] = ["the str1", "the str1"]
+        let response = await client.echoBodyArray({body})
+        expect(response).toStrictEqual(body);
+    })
+
+    it('echoBodyMap', async function() {
+        let body: Record<string, string> = {"one": "the str1", "two": "the str1"}
+        let response = await client.echoBodyMap({body})
         expect(response).toStrictEqual(body);
     })
 
