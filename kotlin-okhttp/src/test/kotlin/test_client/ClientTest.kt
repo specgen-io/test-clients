@@ -33,7 +33,7 @@ class ClientTest {
     }
 
     @Test
-    fun echoBody_responseIsEqualToRequest() {
+    fun echoBodyJson_responseIsEqualToRequest() {
         val client = EchoClient(baseUrl)
 
         val request = Message(123, "the string")
@@ -43,11 +43,49 @@ class ClientTest {
     }
 
     @Test
-    fun echoBody_doesntThrowException() {
+    fun echoBodyJson_doesntThrowException() {
         val client = EchoClient(baseUrl)
 
         assertDoesNotThrow<Message> {
             client.echoBodyJson(Message(123, "the string"))
+        }
+    }
+
+    @Test
+    fun echoBodyArray_responseIsEqualToRequest() {
+        val client = EchoClient(baseUrl)
+
+        val request = arrayOf("the str1", "the str2")
+        val response = client.echoBodyArray(request)
+
+        assertEquals(request, response)
+    }
+
+    @Test
+    fun echoBodyArray_doesntThrowException() {
+        val client = EchoClient(baseUrl)
+
+        assertDoesNotThrow<Array<String>> {
+            client.echoBodyArray(arrayOf("the str1", "the str2"))
+        }
+    }
+
+    @Test
+    fun echoBodyMap_responseIsEqualToRequest() {
+        val client = EchoClient(baseUrl)
+
+        val request = hashMapOf("string_field" to "the value", "string_field_2" to "the value_2")
+        val response = client.echoBodyMap(request)
+
+        assertEquals(request, response)
+    }
+
+    @Test
+    fun echoBodyMap_doesntThrowException() {
+        val client = EchoClient(baseUrl)
+
+        assertDoesNotThrow<Map<String, String>> {
+            client.echoBodyMap(hashMapOf("string_field" to "the value", "string_field_2" to "the value_2"))
         }
     }
 
