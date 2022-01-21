@@ -7,11 +7,11 @@ import (
 	"testing"
 )
 
-func Test_Echo_Body_V2(t *testing.T) {
+func Test_V2_EchoBodyModel(t *testing.T) {
 	client := echo.NewClient(serviceUrl)
 
 	expectedMessage := &models.Message{true, "the string"}
-	response, err := client.EchoBody(&models.Message{true, "the string"})
+	response, err := client.EchoBodyModel(&models.Message{true, "the string"})
 
 	assert.NilError(t, err)
 	assert.NilError(t, err, response)

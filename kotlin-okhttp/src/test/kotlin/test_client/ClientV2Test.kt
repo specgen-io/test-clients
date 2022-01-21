@@ -9,21 +9,21 @@ class ClientV2Test {
     private val baseUrl = "http://localhost:8081"
 
     @Test
-    fun echoBody_responseIsEqualToRequest() {
+    fun echoBodyModel_responseIsEqualToRequest() {
         val client = EchoClient(baseUrl)
 
         val request = Message(true, "the string")
-        val response: Message = client.echoBody(request)
+        val response: Message = client.echoBodyModel(request)
 
         assertEquals(request, response)
     }
 
     @Test
-    fun echoBody_doesntThrowException() {
+    fun echoBodyModel_doesntThrowException() {
         val client = EchoClient(baseUrl)
 
         assertDoesNotThrow {
-            client.echoBody(Message(true, "the string"))
+            client.echoBodyModel(Message(true, "the string"))
         }
     }
 }
