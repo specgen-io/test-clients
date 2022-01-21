@@ -58,7 +58,7 @@ public class ClientTest {
 		var request = new String[]{"the str1", "the str2"};
 		var response = client.echoBodyArray(request);
 
-		assertThat(request).usingRecursiveComparison().isEqualTo(response);
+		assertArrayEquals(request, response);
 	}
 
 	@Test
