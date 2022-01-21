@@ -58,7 +58,7 @@ class ClientTest {
         val request = arrayOf("the str1", "the str2")
         val response = client.echoBodyArray(request)
 
-        assertEquals(request, response)
+        assertArrayEquals(request, response)
     }
 
     @Test
