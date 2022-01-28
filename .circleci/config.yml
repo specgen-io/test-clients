@@ -54,7 +54,7 @@ jobs:
       - store_test_results:
           path: ./go/test-results
 
-  java-okhttp:
+  java-okhttp-jackson:
     environment:
       SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
     working_directory: ~/specgen-tests
@@ -66,7 +66,7 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - cache-{{ checksum "./java-okhttp/pom.xml" }}
+            - cache-{{ checksum "./java-okhttp-jackson/pom.xml" }}
       - artifactory/setup-maven:
           jfrog-server-url: specgen.jfrog.io
           repo-name: maven
@@ -75,17 +75,17 @@ jobs:
       - run:
           name: Test Java OkHttp client
           command: |
-            cd ./java-okhttp
+            cd ./java-okhttp-jackson
             mkdir -p ./test-results
             mvn clean test -Dspecgen.version=<<pipeline.parameters.specgen-version>>
       - store_test_results:
-          path: ./java-okhttp/test-results
+          path: ./java-okhttp-jackson/test-results
       - save_cache:
-          key: cache-{{ checksum "./java-okhttp/pom.xml" }}
+          key: cache-{{ checksum "./java-okhttp-jackson/pom.xml" }}
           paths:
             - ~/.m2
 
-  kotlin-okhttp:
+  java-okhttp-moshi:
     environment:
       SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
     working_directory: ~/specgen-tests
@@ -96,21 +96,52 @@ jobs:
       - attach_workspace:
           at: .
       - restore_cache:
-          key: cache-{{ checksum "./kotlin-okhttp/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp/settings.gradle.kts" }}
+          keys:
+            - cache-{{ checksum "./java-okhttp-moshi/pom.xml" }}
+      - artifactory/setup-maven:
+          jfrog-server-url: specgen.jfrog.io
+          repo-name: maven
+      - start-service:
+          port: 8081
+      - run:
+          name: Test Java OkHttp client
+          command: |
+            cd ./java-okhttp-moshi
+            mkdir -p ./test-results
+            mvn clean test -Dspecgen.version=<<pipeline.parameters.specgen-version>>
+      - store_test_results:
+          path: ./java-okhttp-moshi/test-results
+      - save_cache:
+          key: cache-{{ checksum "./java-okhttp-moshi/pom.xml" }}
+          paths:
+            - ~/.m2          
+
+  kotlin-okhttp-jackson:
+    environment:
+      SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
+    working_directory: ~/specgen-tests
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: cache-{{ checksum "./kotlin-okhttp-jackson/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp-jackson/settings.gradle.kts" }}
       - start-service:
           port: 8081
       - run:
           name: Test Kotlin OkHttp client
           command: |
-            cd ./kotlin-okhttp
+            cd ./kotlin-okhttp-jackson
             ./gradlew --build-cache --no-daemon --stacktrace test \
             -Djfrog.user=$JFROG_USER \
             -Djfrog.pass=$JFROG_PASS \
             -Dspecgen.version=<<pipeline.parameters.specgen-version>>
       - store_test_results:
-          path: ~/specgen-tests/kotlin-okhttp/build/test-results
+          path: ~/specgen-tests/kotlin-okhttp-jackson/build/test-results
       - save_cache:
-          key: cache-{{ checksum "./kotlin-okhttp/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp/settings.gradle.kts" }}
+          key: cache-{{ checksum "./kotlin-okhttp-jackson/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp-jackson/settings.gradle.kts" }}
           paths: [ ~/.gradle ]   
 
   ruby:
@@ -408,11 +439,15 @@ workflows:
           context: specgen
           requires:
             - test-service
-      - java-okhttp:
+      - java-okhttp-jackson:
           context: specgen
           requires:
             - test-service
-      - kotlin-okhttp:
+      - java-okhttp-moshi:
+          context: specgen
+          requires:
+            - test-service      
+      - kotlin-okhttp-jackson:
           context: specgen
           requires:
             - test-service      
