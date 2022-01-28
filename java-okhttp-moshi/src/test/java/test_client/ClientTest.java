@@ -1,18 +1,16 @@
 package test_client;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import test_client.clients.check.*;
 import test_client.clients.echo.*;
 import test_client.models.*;
 
 import java.math.BigDecimal;
 import java.time.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientTest {
 	public static final String BASE_URL = "http://localhost:8081";
@@ -269,6 +267,13 @@ public class ClientTest {
 		CheckClient client = new CheckClient(BASE_URL);
 
 		assertDoesNotThrow(client::checkEmpty);
+	}
+
+	@Test
+	public void checkEmptyResponse_doesntThrowException() {
+		CheckClient client = new CheckClient(BASE_URL);
+
+		assertDoesNotThrow(() -> client.checkEmptyResponse(new Message(123, "the string")));
 	}
 
 	@Test
