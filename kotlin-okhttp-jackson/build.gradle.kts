@@ -23,6 +23,7 @@ dependencies {
 
 specgen {
     clientKotlin {
+        jsonlib.set("jackson")
         packageName.set("test_client")
         specFile.set(file("../spec.yaml"))
     }
