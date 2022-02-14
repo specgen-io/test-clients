@@ -16,4 +16,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "kotlin-okhttp-jackson"
+rootProject.name = "kotlin-okhttp-moshi"

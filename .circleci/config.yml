@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.1.1515
+    default: 2.1.1539
 
   specgen-version-major:
     type: string
@@ -139,10 +139,38 @@ jobs:
             -Djfrog.pass=$JFROG_PASS \
             -Dspecgen.version=<<pipeline.parameters.specgen-version>>
       - store_test_results:
-          path: ~/specgen-tests/kotlin-okhttp-jackson/build/test-results
+          path: ./kotlin-okhttp-jackson/build/test-results
       - save_cache:
           key: cache-{{ checksum "./kotlin-okhttp-jackson/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp-jackson/settings.gradle.kts" }}
-          paths: [ ~/.gradle ]   
+          paths: [ ~/.gradle ]  
+
+  kotlin-okhttp-moshi:
+    environment:
+      SPECGEN_VERSION: << pipeline.parameters.specgen-version >>
+    working_directory: ~/specgen-tests
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: cache-{{ checksum "./kotlin-okhttp-moshi/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp-moshi/settings.gradle.kts" }}
+      - start-service:
+          port: 8081
+      - run:
+          name: Test Kotlin OkHttp client
+          command: |
+            cd ./kotlin-okhttp-moshi
+            ./gradlew --build-cache --no-daemon --stacktrace test \
+            -Djfrog.user=$JFROG_USER \
+            -Djfrog.pass=$JFROG_PASS \
+            -Dspecgen.version=<<pipeline.parameters.specgen-version>>
+      - store_test_results:
+          path: ./kotlin-okhttp-moshi/build/test-results
+      - save_cache:
+          key: cache-{{ checksum "./kotlin-okhttp-moshi/build.gradle.kts" }}-{{ checksum "./kotlin-okhttp-moshi/settings.gradle.kts" }}
+          paths: [ ~/.gradle ]            
 
   ruby:
     working_directory: ~/specgen-tests
@@ -450,7 +478,11 @@ workflows:
       - kotlin-okhttp-jackson:
           context: specgen
           requires:
-            - test-service      
+            - test-service    
+      - kotlin-okhttp-moshi:
+          context: specgen
+          requires:
+            - test-service          
       - ruby:
           context: specgen
           requires:
