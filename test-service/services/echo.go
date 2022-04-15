@@ -38,3 +38,15 @@ func (service *EchoService) EchoEverything(body *models.Message, floatQuery floa
 func (service *EchoService) SameOperationName() (*echo.SameOperationNameResponse, error) {
 	return &echo.SameOperationNameResponse{Ok: &empty.Value}, nil
 }
+
+//func (service *EchoService) EchoSuccess(resultStatus string) (*echo.EchoSuccessResponse, error) {
+//	return &echo.EchoSuccessResponse{Ok: &models.OkResult{OkResult: resultStatus}}, nil
+//}
+
+//func (service *EchoService) EchoSuccess(resultStatus string) (*echo.EchoSuccessResponse, error) {
+//	return &echo.EchoSuccessResponse{Created: &models.CreatedResult{CreatedResult: resultStatus}}, nil
+//}
+
+func (service *EchoService) EchoSuccess(resultStatus string) (*echo.EchoSuccessResponse, error) {
+	return &echo.EchoSuccessResponse{Accepted: &models.AcceptedResult{AcceptedResult: resultStatus}}, nil
+}

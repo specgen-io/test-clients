@@ -153,6 +153,42 @@ func Test_Echo_Everything(t *testing.T) {
 	assert.DeepEqual(t, expectedMessage, response)
 }
 
+func Test_Echo_Success_Ok(t *testing.T) {
+	client := echo.NewClient(serviceUrl)
+
+	stringQuery := "the value"
+
+	expectedMessage := &echo.EchoSuccessResponse{Ok: &models.OkResult{stringQuery}}
+	response, err := client.EchoSuccess(stringQuery)
+	assert.NilError(t, err)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
+}
+
+func Test_Echo_Success_Created(t *testing.T) {
+	client := echo.NewClient(serviceUrl)
+
+	stringQuery := "the value"
+
+	expectedMessage := &echo.EchoSuccessResponse{Created: &models.CreatedResult{stringQuery}}
+	response, err := client.EchoSuccess(stringQuery)
+	assert.NilError(t, err)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
+}
+
+func Test_Echo_Success_Accepted(t *testing.T) {
+	client := echo.NewClient(serviceUrl)
+
+	stringQuery := "the value"
+
+	expectedMessage := &echo.EchoSuccessResponse{Accepted: &models.AcceptedResult{stringQuery}}
+	response, err := client.EchoSuccess(stringQuery)
+	assert.NilError(t, err)
+	assert.NilError(t, err, response)
+	assert.DeepEqual(t, expectedMessage, response)
+}
+
 func Test_Check_Empty(t *testing.T) {
 	client := check.NewClient(serviceUrl)
 
