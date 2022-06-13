@@ -55,18 +55,18 @@ class ClientTest {
     fun echoBodyArray_responseIsEqualToRequest() {
         val client = EchoClient(baseUrl)
 
-        val request = arrayOf("the str1", "the str2")
+        val request = listOf("the str1", "the str2")
         val response = client.echoBodyArray(request)
 
-        assertArrayEquals(request, response)
+        assertEquals(request, response)
     }
 
     @Test
     fun echoBodyArray_doesntThrowException() {
         val client = EchoClient(baseUrl)
 
-        assertDoesNotThrow<Array<String>> {
-            client.echoBodyArray(arrayOf("the str1", "the str2"))
+        assertDoesNotThrow<List<String>> {
+            client.echoBodyArray(listOf("the str1", "the str2"))
         }
     }
 
@@ -102,10 +102,10 @@ class ClientTest {
         val stringQuery = "the value"
         val stringOptQuery = "the value"
         val stringDefaultedQuery = "value"
-        val stringArrayQuery = arrayOf("the str1", "the str2")
+        val stringArrayQuery = listOf("the str1", "the str2")
         val uuidQuery = UUID.fromString("123e4567-e89b-12d3-a456-426655440000")
         val dateQuery = LocalDate.parse("2020-01-01")
-        val dateArrayQuery = arrayOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
+        val dateArrayQuery = listOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
         val datetimeQuery = LocalDateTime.parse("2019-11-30T17:45:55")
         val enumQuery = Choice.SECOND_CHOICE
 
@@ -160,10 +160,10 @@ class ClientTest {
         val stringQuery = "the value"
         val stringOptQuery = "the value"
         val stringDefaultedQuery = "value"
-        val stringArrayQuery = arrayOf("the str1", "the str2")
+        val stringArrayQuery = listOf("the str1", "the str2")
         val uuidQuery = UUID.fromString("123e4567-e89b-12d3-a456-426655440000")
         val dateQuery = LocalDate.parse("2020-01-01")
-        val dateArrayQuery = arrayOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
+        val dateArrayQuery = listOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
         val datetimeQuery = LocalDateTime.parse("2019-11-30T17:45:55")
         val enumQuery = Choice.SECOND_CHOICE
 
@@ -201,10 +201,10 @@ class ClientTest {
         val stringHeader = "the value"
         val stringOptHeader = "the value"
         val stringDefaultedHeader = "value"
-        val stringArrayHeader = arrayOf("the str1", "the str2")
+        val stringArrayHeader = listOf("the str1", "the str2")
         val uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000")
         val dateHeader = LocalDate.parse("2020-01-01")
-        val dateArrayHeader = arrayOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
+        val dateArrayHeader = listOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
         val datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55")
         val enumHeader = Choice.SECOND_CHOICE
 
@@ -258,10 +258,10 @@ class ClientTest {
         val stringHeader = "the value"
         val stringOptHeader = "the value"
         val stringDefaultedHeader = "value"
-        val stringArrayHeader = arrayOf("the str1", "the str2")
+        val stringArrayHeader = listOf("the str1", "the str2")
         val uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000")
         val dateHeader = LocalDate.parse("2020-01-01")
-        val dateArrayHeader = arrayOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
+        val dateArrayHeader = listOf(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"))
         val datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55")
         val enumHeader = Choice.SECOND_CHOICE
 
