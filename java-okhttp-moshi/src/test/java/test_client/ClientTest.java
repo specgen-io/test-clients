@@ -53,17 +53,17 @@ public class ClientTest {
 	public void echoBodyArray_responseIsEqualToRequest() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		var request = new String[]{"the str1", "the str2"};
+		var request = Arrays.asList("the str1", "the str2");
 		var response = client.echoBodyArray(request);
 
-		assertArrayEquals(request, response);
+		assertEquals(request, response);
 	}
 
 	@Test
 	public void echoBodyArray_doesntThrowException() {
 		EchoClient client = new EchoClient(BASE_URL);
 
-		assertDoesNotThrow(() -> client.echoBodyArray(new String[]{"the str1", "the str2"}));
+		assertDoesNotThrow(() -> client.echoBodyArray(Arrays.asList("the str1", "the str2")));
 	}
 
 	@Test
@@ -102,10 +102,10 @@ public class ClientTest {
 		String stringQuery = "the value";
 		String stringOptQuery = "the value";
 		String stringDefaultedQuery = "value";
-		String[] stringArrayQuery = new String[]{"the str1", "the str2"};
+		List<String> stringArrayQuery = Arrays.asList("the str1", "the str2");
 		UUID uuidQuery = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
 		LocalDate dateQuery = LocalDate.parse("2020-01-01");
-		LocalDate[] dateArrayQuery = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		List<LocalDate> dateArrayQuery = Arrays.asList(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"));
 		LocalDateTime datetimeQuery = LocalDateTime.parse("2019-11-30T17:45:55");
 		Choice enumQuery = Choice.SECOND_CHOICE;
 
@@ -128,10 +128,10 @@ public class ClientTest {
 		String stringQuery = "the value";
 		String stringOptQuery = "the value";
 		String stringDefaultedQuery = "value";
-		String[] stringArrayQuery = new String[]{"the str1", "the str2"};
+		List<String> stringArrayQuery = Arrays.asList("the str1", "the str2");
 		UUID uuidQuery = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
 		LocalDate dateQuery = LocalDate.parse("2020-01-01");
-		LocalDate[] dateArrayQuery = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		List<LocalDate> dateArrayQuery = Arrays.asList(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"));
 		LocalDateTime datetimeQuery = LocalDateTime.parse("2019-11-30T17:45:55");
 		Choice enumQuery = Choice.SECOND_CHOICE;
 
@@ -152,10 +152,10 @@ public class ClientTest {
 		String stringHeader = "the value";
 		String stringOptHeader = "the value";
 		String stringDefaultedHeader = "value";
-		String[] stringArrayHeader = new String[]{"the str1", "the str2"};
+		List<String> stringArrayHeader = Arrays.asList("the str1", "the str2");
 		UUID uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
 		LocalDate dateHeader = LocalDate.parse("2020-01-01");
-		LocalDate[] dateArrayHeader = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		List<LocalDate> dateArrayHeader = Arrays.asList(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"));
 		LocalDateTime datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55");
 		Choice enumHeader = Choice.SECOND_CHOICE;
 
@@ -178,10 +178,10 @@ public class ClientTest {
 		String stringHeader = "the value";
 		String stringOptHeader = "the value";
 		String stringDefaultedHeader = "value";
-		String[] stringArrayHeader = new String[]{"the str1", "the str2"};
+		List<String> stringArrayHeader = Arrays.asList("the str1", "the str2");
 		UUID uuidHeader = UUID.fromString("123e4567-e89b-12d3-a456-426655440000");
 		LocalDate dateHeader = LocalDate.parse("2020-01-01");
-		LocalDate[] dateArrayHeader = new LocalDate[]{LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02")};
+		List<LocalDate> dateArrayHeader = Arrays.asList(LocalDate.parse("2020-01-01"), LocalDate.parse("2020-01-02"));
 		LocalDateTime datetimeHeader = LocalDateTime.parse("2019-11-30T17:45:55");
 		Choice enumHeader = Choice.SECOND_CHOICE;
 
