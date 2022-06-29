@@ -26,6 +26,7 @@ dependencies {
 specgen {
     clientKotlin {
         jsonlib.set("moshi")
+        client.set("okhttp")
         packageName.set("test_client")
         specFile.set(file("../spec.yaml"))
     }
