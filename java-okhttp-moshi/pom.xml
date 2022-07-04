@@ -77,7 +77,7 @@
             </plugin>
             <plugin>
                 <groupId>io.specgen</groupId>
-                <artifactId>specgen-maven-plugin</artifactId>
+                <artifactId>java-maven-plugin</artifactId>
                 <version>${specgen.version}</version>
                 <executions>
                     <execution>
