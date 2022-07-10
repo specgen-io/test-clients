@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "1.6.10"
     id("com.adarshr.test-logger") version "3.1.0"
-    id("io.specgen.gradle")
+    id("io.specgen.kotlin.gradle")
 }
 
 group = "io.specgen"

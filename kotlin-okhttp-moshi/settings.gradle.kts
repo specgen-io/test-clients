@@ -12,7 +12,7 @@ pluginManagement {
     }
 
     plugins {
-        id("io.specgen.gradle") version (System.getProperty("specgen.version") ?: "0.0.0")
+        id("io.specgen.kotlin.gradle") version (System.getProperty("specgen.version") ?: "0.0.0")
     }
 }
 
