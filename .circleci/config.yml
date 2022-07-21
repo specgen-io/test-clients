@@ -543,7 +543,7 @@ workflows:
           context: specgen
           requires:
             - test-service  
-      -  kotlin-micronaut-low-level-jackson:
+      - kotlin-micronaut-low-level-jackson:
           context: specgen
           requires:
             - test-service                     

@@ -58,7 +58,6 @@ tasks {
 graalvmNative.toolchainDetection.set(false)
 
 micronaut {
-    runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
