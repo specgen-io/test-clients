@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
@@ -28,7 +28,7 @@ specgen {
         client.set("okhttp")
         packageName.set("test_client")
         specFile.set(file("../spec.yaml"))
-    }
+   }
 }
 
 tasks.test {
