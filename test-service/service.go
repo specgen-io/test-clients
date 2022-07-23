@@ -1,4 +1,4 @@
-//go:generate specgen service-go --spec-file ./../spec.yaml --module-name test-service --generate-path ./spec --services-path ./services --swagger-path docs/swagger.yaml
+//go:generate specgen-go service-go --spec-file ./../spec.yaml --module-name test-service --generate-path ./spec --services-path ./services --swagger-path docs/swagger.yaml
 
 package main
 
