@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.1.1853
+    default: 2.1.1884
 
   specgen-version-major:
     type: string
@@ -23,7 +23,7 @@ jobs:
           name: Build test-service
           command: |
             cd ./test-service
-            go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
+            go install github.com/specgen-io/specgen-go/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
             go generate
             go build -o test-service
       - persist_to_workspace:
@@ -45,7 +45,7 @@ jobs:
           name: Test Go client
           command: |
             cd ./go
-            go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
+            go install github.com/specgen-io/specgen-go/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
             go generate
             mkdir -p ./test-results
             go install github.com/jstemmer/go-junit-report@v0.9.1
