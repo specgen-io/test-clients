@@ -6,7 +6,7 @@ orbs:
 parameters:
   specgen-version:
     type: string
-    default: 2.1.1884
+    default: 2.1.1925
 
   specgen-version-major:
     type: string
@@ -16,7 +16,7 @@ jobs:
   test-service:
     working_directory: ~/specgen-tests
     docker:
-      - image: cimg/go:1.16.4
+      - image: cimg/go:1.18.3
     steps:
       - checkout
       - run:
@@ -34,7 +34,7 @@ jobs:
   go:
     working_directory: ~/specgen-tests
     docker:
-      - image: cimg/go:1.16.4
+      - image: cimg/go:1.18.3
     steps:
       - checkout
       - attach_workspace:
